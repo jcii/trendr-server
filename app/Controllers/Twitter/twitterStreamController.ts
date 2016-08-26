@@ -3,16 +3,16 @@ const twitterModel = require('../../Models/Twitter/twitterApiModel')
 
 module.exports = class twitterStreamController {
   constructor() { }
-  startStream(stream) {
+  startStream(stream: String) {
 
   }
-  endStream(stream) {
+  endStream(stream: String) {
     
   }
   runAll(){
 
   }
-  runAllWithSchedule(cron) {
+  runAllWithSchedule(cron: String) {
     schedule.scheduleJob(cron, this.runAll())
   }
 }
