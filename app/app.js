@@ -36,7 +36,8 @@ app.use(session({
   saveUninitialized: true,
   secret: 'secret'
 }))
-// require('./Controllers/authControllers/passportStrategyController.js')(passport)
+require('./Controllers/authControllers/passportStrategyController.js')(passport)
+app.use(require('./Controllers/authControllers/jwtAuthController.js'))
 app.use((req, res, next) => {
   var err = new Error('Not Found')
   err.status = 404
