@@ -5,7 +5,7 @@ module.exports = (function () {
     function userModel() {
     }
     userModel.prototype.getUser = function () {
-        return db.knex('feedz_users');
+        return db.knex('users');
     };
     userModel.prototype.createUserIfNotExists = function (user) {
         console.log(user);
@@ -15,17 +15,16 @@ module.exports = (function () {
                 return db.knex('users').insert({
                     username: user.username,
                     password: bcrypt.hashSync(user.password, 10),
-                    email: user.email,
-                    token: randToken.generate(16)
+                    email: user.email
                 });
             }
         });
     };
     userModel.prototype.checkUserLogin = function (user) {
-        return db.knex('feedz_users').where(user);
+        return db.knex('users').where(user);
     };
     userModel.prototype.checkUserToken = function (token) {
-        return db.knex('feedz_users').where({ token: token });
+        return db.knex('users').where({ token: token });
     };
     return userModel;
 }());

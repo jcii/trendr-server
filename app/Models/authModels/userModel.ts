@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt')
 module.exports = class userModel {
   constructor() {}
   getUser() {
-    return db.knex('feedz_users')
+    return db.knex('users')
   }
   createUserIfNotExists(user) {
     console.log(user)
@@ -15,16 +15,15 @@ module.exports = class userModel {
           return db.knex('users').insert({
             username: user.username, 
             password: bcrypt.hashSync(user.password, 10), 
-            email:user.email,
-            token: randToken.generate(16)
+            email:user.email
           })
         }
       })
   }
   checkUserLogin(user) {
-    return db.knex('feedz_users').where(user)
+    return db.knex('users').where(user)
   }
   checkUserToken(token) {
-    return db.knex('feedz_users').where({token})
+    return db.knex('users').where({token})
   }
 }
