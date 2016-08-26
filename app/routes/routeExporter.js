@@ -1,3 +1,4 @@
 module.exports = {
-    '/': require('./API/rootRoute')
+    '/test': require('./API/rootRoute'),
+    '/cole': require('./API/coleRoute')
 };

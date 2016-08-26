@@ -1,6 +1,7 @@
+"use strict";
 var schedule = require('node-schedule');
 var twitterModel = require('../../Models/Twitter/twitterApiModel');
-module.exports = (function () {
+var twitterStreamController = (function () {
     function twitterStreamController() {
     }
     twitterStreamController.prototype.startStream = function (stream) {
@@ -14,3 +15,4 @@ module.exports = (function () {
     };
     return twitterStreamController;
 }());
+exports.twitterStreamController = twitterStreamController;

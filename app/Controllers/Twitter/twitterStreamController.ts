@@ -1,7 +1,7 @@
 const schedule = require('node-schedule')
 const twitterModel = require('../../Models/Twitter/twitterApiModel')
 
-module.exports = class twitterStreamController {
+export class twitterStreamController {
   constructor() { }
   startStream(stream: String) {
 
