@@ -1,3 +1,3 @@
 module.exports = {
-  '/': require('./API/rootRoute')
-}
+    '/': require('./API/rootRoute')
+};
