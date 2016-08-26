@@ -8,7 +8,6 @@ const bodyParser = require('body-parser')
 const jsonAPI = require('./routes/routeExporter')
 const passport = require('passport')
 const session = require('express-session')
-const route = require('./routes/index')
 require('dotenv').config()
 const app = express()
 // CORS headers
@@ -27,13 +26,12 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, '/public')))
 
-app.use('/', route)
-// for(let route in jsonAPI){
-//   if(jsonAPI.hasOwnProperty(route)){
-//     let routeString = '/' +   route.toString()
-//     app.use(routeString, jsonAPI[route])
-//   }
-// }
+for(let route in jsonAPI){
+  if(jsonAPI.hasOwnProperty(route)){
+    let routeString = '/' +   route.toString()
+    app.use(routeString, jsonAPI[route])
+  }
+}
 
 app.use('/nm', express.static(__dirname + '/../node_modules/'))
 app.use(session({
@@ -45,6 +43,7 @@ app.use(session({
 app.use((req: Request, res :Response, next: Function) => {
   var err = new Error('Not Found')
   next(err)
+
 })
 app.use((err: Error, req: Request, res: Response, next: Function) => {
   res.json({ message: err.message })

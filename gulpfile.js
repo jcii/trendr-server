@@ -4,7 +4,7 @@ var clean = require('gulp-clean');
 var server = require('gulp-develop-server');
 var mocha = require('gulp-mocha');
 
-var serverTS = ["**/*.ts", "!node_modules/**", '!bin/**'];
+var serverTS = ["**/*.ts", "!node_modules/**", '!bin/**', ];
 
 gulp.task('ts', ['clean'], function() {
     return gulp
@@ -16,12 +16,14 @@ gulp.task('ts', ['clean'], function() {
 gulp.task('clean', function () {
     return gulp
         .src([
+            '!app/config/db/**',
             'app/app.js',
             '**/*.js',
             '**/*.js.map',
             '!node_modules/**',
             '!gulpfile.js',
-            '!bin/**'
+            '!bin/**',
+            '!app/config/db/knex'
         ], {read: false})
         .pipe(clean())
 });

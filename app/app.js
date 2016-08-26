@@ -7,7 +7,6 @@ var bodyParser = require('body-parser');
 var jsonAPI = require('./routes/routeExporter');
 var passport = require('passport');
 var session = require('express-session');
-var route = require('./routes/index');
 require('dotenv').config();
 var app = express();
 // CORS headers
@@ -25,13 +24,12 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '/public')));
-app.use('/', route);
-// for(let route in jsonAPI){
-//   if(jsonAPI.hasOwnProperty(route)){
-//     let routeString = '/' +   route.toString()
-//     app.use(routeString, jsonAPI[route])
-//   }
-// }
+for (var route in jsonAPI) {
+    if (jsonAPI.hasOwnProperty(route)) {
+        var routeString = '/' + route.toString();
+        app.use(routeString, jsonAPI[route]);
+    }
+}
 app.use('/nm', express.static(__dirname + '/../node_modules/'));
 app.use(session({
     resave: false,
