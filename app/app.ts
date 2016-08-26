@@ -26,12 +26,14 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, '/public')))
 
-for(let route in jsonAPI){
-  if(jsonAPI.hasOwnProperty(route)){
-    let routeString = '/' +   route.toString()
-    app.use(routeString, jsonAPI[route])
-  }
-}
+// for(let route in jsonAPI){
+//   if(jsonAPI.hasOwnProperty(route)){
+//     let routeString = '/' +   route.toString()
+//     app.use(routeString, jsonAPI[route])
+//   }
+// }
+
+app.use('/cole', require('./routes/API/coleRoute'))
 
 app.use('/nm', express.static(__dirname + '/../node_modules/'))
 app.use(session({
