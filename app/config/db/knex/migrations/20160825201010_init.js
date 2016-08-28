@@ -46,7 +46,7 @@ return Promise.all([
     table.string("symbol")
     table.integer("price")
     table.integer("volume")
-    table.string("timestamp")
+    table.integer("timestamp")
     table.bigint('created_at')
     table.bigint('updated_at')
   })

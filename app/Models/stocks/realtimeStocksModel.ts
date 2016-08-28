@@ -1,6 +1,7 @@
 'use strict'
 const db = require('../../config/db/knex/knexConfig')
 const request = require('request')
+// const Date = require('datejs')
 
 module.exports = class realtimeStocks {
   constructor() { }
@@ -11,7 +12,9 @@ module.exports = class realtimeStocks {
 //   }
 
     updateDatabase(obj: any) {
-        return db.knex.raw(`insert into realtime_stocks values (default, '${obj.Name}', '${obj.Symbol}', ${obj.LastPrice}, ${obj.Volume}, '${obj.Timestamp}')`)
+        let unixDate: string = `${obj.Timestamp.substring(8,10)}-${obj.Timestamp.substring(4,7)}-${obj.Timestamp.substring(30, 35)} ${obj.Timestamp.substring(11,19)}`
+        let dbDate: number = Number(new Date(unixDate))/1000
+        return db.knex.raw(`insert into realtime_stocks values (default, '${obj.Name}', '${obj.Symbol}', ${obj.LastPrice}, ${obj.Volume}, ${dbDate})`)
     }
 
     getDatabaseResults() {

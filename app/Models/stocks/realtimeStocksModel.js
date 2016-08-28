@@ -1,6 +1,7 @@
 'use strict';
 var db = require('../../config/db/knex/knexConfig');
 var request = require('request');
+// const Date = require('datejs')
 module.exports = (function () {
     function realtimeStocks() {
     }
@@ -10,7 +11,9 @@ module.exports = (function () {
     //     })
     //   }
     realtimeStocks.prototype.updateDatabase = function (obj) {
-        return db.knex.raw("insert into realtime_stocks values (default, '" + obj.Name + "', '" + obj.Symbol + "', " + obj.LastPrice + ", " + obj.Volume + ", '" + obj.Timestamp + "')");
+        var unixDate = obj.Timestamp.substring(8, 10) + "-" + obj.Timestamp.substring(4, 7) + "-" + obj.Timestamp.substring(30, 35) + " " + obj.Timestamp.substring(11, 19);
+        var dbDate = Number(new Date(unixDate)) / 1000;
+        return db.knex.raw("insert into realtime_stocks values (default, '" + obj.Name + "', '" + obj.Symbol + "', " + obj.LastPrice + ", " + obj.Volume + ", " + dbDate + ")");
     };
     realtimeStocks.prototype.getDatabaseResults = function () {
         return db.knex.raw("select * from realtime_stocks");
