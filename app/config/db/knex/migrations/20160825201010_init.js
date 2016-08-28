@@ -39,6 +39,16 @@ return Promise.all([
     table.json("raw_tweet")
     table.bigint('created_at')
     table.bigint('updated_at')
+  }),
+  knex.schema.createTable('realtime_stocks', (table) => {
+    table.increments('id').primary()
+    table.string("name")
+    table.string("symbol")
+    table.integer("price")
+    table.integer("volume")
+    table.string("timestamp")
+    table.bigint('created_at')
+    table.bigint('updated_at')
   })
 ])}
 exports.down = (knex, Promise) => {}

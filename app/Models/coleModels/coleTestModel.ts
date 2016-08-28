@@ -1,9 +1,9 @@
 'use strict'
-const db = require('../../config/db/knex/knexConfig')
+const coleDb = require('../../config/db/knex/knexConfig')
 
 module.exports = class coleTestModel {
   constructor() { }
   getTrends() {
-    return db.knex.raw(`select * from trends`)
+    return coleDb.knex.raw(`select * from trends`)
   }
 }
