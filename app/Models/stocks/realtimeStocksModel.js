@@ -1,15 +1,16 @@
 'use strict';
 var db = require('../../config/db/knex/knexConfig');
 var request = require('request');
-// const Date = require('datejs')
 module.exports = (function () {
     function realtimeStocks() {
     }
-    //   getRealtimeStockPrice() {
-    //     request(`http://dev.markitondemand.com/MODApis/Api/v2/Quote/json?symbol=NFLX`, (error, response, body) => {
-    //         return (!error && response.statusCode == 200) ? JSON.stringify(body) : 'Not found' 
-    //     })
-    //   }
+    realtimeStocks.prototype.getRealtimeStockPrice = function () {
+        return new Promise(function (resolve, reject) {
+            request("http://dev.markitondemand.com/MODApis/Api/v2/Quote/json?symbol=NFLX", function (error, response, body) {
+                return (!error && response.statusCode == 200) ? resolve(JSON.stringify(body)) : reject(error);
+            });
+        });
+    };
     realtimeStocks.prototype.updateDatabase = function (obj) {
         var unixDate = obj.Timestamp.substring(8, 10) + "-" + obj.Timestamp.substring(4, 7) + "-" + obj.Timestamp.substring(30, 35) + " " + obj.Timestamp.substring(11, 19);
         var dbDate = Number(new Date(unixDate)) / 1000;
