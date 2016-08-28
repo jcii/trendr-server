@@ -10,7 +10,7 @@ module.exports = (function () {
     //     })
     //   }
     realtimeStocks.prototype.updateDatabase = function (obj) {
-        return db.knex.raw("insert into realtime_stocks values (default, '" + obj.name + "', '" + obj.symbol + "', " + obj.price + ", " + obj.volume + ", '" + obj.timestamp + "')");
+        return db.knex.raw("insert into realtime_stocks values (default, '" + obj.Name + "', '" + obj.Symbol + "', " + obj.LastPrice + ", " + obj.Volume + ", '" + obj.Timestamp + "')");
     };
     realtimeStocks.prototype.getDatabaseResults = function () {
         return db.knex.raw("select * from realtime_stocks");

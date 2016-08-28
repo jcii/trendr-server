@@ -14,15 +14,7 @@ router.get('/', function(req: Request, res: Response, next: Function) {
 });
 
 router.post('/updateDatabase', function(req: Request, res: Response, next: Function) {
-    // console.log(req);
-    let obj = {
-        name: 'netlfix',
-        symbol: 'nflx',
-        price: 97.5,
-        volume: 10000,
-        timestamp: 'yesterday'
-    }
-    realtimeStocks.updateDatabase(obj).then(() => {
+    realtimeStocks.updateDatabase(req.body).then(() => {
         realtimeStocks.getDatabaseResults().then((data: any) => {
             res.send(data.rows)
         })

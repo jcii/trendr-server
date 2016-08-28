@@ -11,15 +11,7 @@ router.get('/', function (req, res, next) {
     });
 });
 router.post('/updateDatabase', function (req, res, next) {
-    // console.log(req);
-    var obj = {
-        name: 'netlfix',
-        symbol: 'nflx',
-        price: 97.5,
-        volume: 10000,
-        timestamp: 'yesterday'
-    };
-    realtimeStocks.updateDatabase(obj).then(function () {
+    realtimeStocks.updateDatabase(req.body).then(function () {
         realtimeStocks.getDatabaseResults().then(function (data) {
             res.send(data.rows);
         });
