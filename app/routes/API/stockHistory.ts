@@ -3,12 +3,16 @@ var express = require('express');
 var router = express.Router();
 const request = require('request')
 
-const realtimeStocksClass = require('../../Models/stocks/realtimeStocksModel')
-const realtimeStocks = new realtimeStocksClass
+const StockHistoryClass = require('../../Models/stocks/stockHistoryModel')
+const stockHistory = new StockHistoryClass
 
 
-router.get('/:stockId', function(req: Request, res: Response, next: Function) {
-    res.json(`your stock id is ${req.params.stockId}`)
+router.post('/', function(req: Request, res: Response, next: Function) {
+    console.log(req.body);
+    
+    stockHistory.getStockHistory(req.body).then(data => {
+        res.json(data)
+    })
 });
 
 
