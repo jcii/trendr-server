@@ -16,7 +16,7 @@ router.get('/', function(req: Request, res: Response, next: Function) {
 router.post('/updateDatabase', function(req: Request, res: Response, next: Function) {
     realtimeStocks.updateDatabase(req.body).then(() => {
         realtimeStocks.getDatabaseResults().then((data: any) => {
-            res.send(data.rows)
+            res.send(data)
         })
     })
 });

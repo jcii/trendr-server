@@ -19,6 +19,11 @@ module.exports = class realtimeStocks {
     }
 
     getDatabaseResults() {
-        return db.knex.raw(`select * from realtime_stocks`)
+        return db.knex.raw(`select * from realtime_stocks order by timestamp desc limit 10`).then(results => {
+            let deleteIds = results.rows.map(elem => elem.id)
+            return db.knex('realtime_stocks').whereNotIn('id', deleteIds).del().then(() => {
+                return results.rows
+            })
+        })
     }
 }
