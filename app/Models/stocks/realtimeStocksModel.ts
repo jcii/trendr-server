@@ -5,12 +5,11 @@ const request = require('request')
 module.exports = class realtimeStocks {
     constructor() { }
     getRealtimeStockPrice() {
-    return new Promise((resolve: any, reject: any) => {
-        request(`http://dev.markitondemand.com/MODApis/Api/v2/Quote/json?symbol=NFLX`, (error, response, body) => {
-            return (!error && response.statusCode == 200) ? resolve(JSON.stringify(body)) : reject(error)
+        return new Promise((resolve: any, reject: any) => {
+            request(`http://dev.markitondemand.com/MODApis/Api/v2/Quote/json?symbol=NFLX`, (error: any, response: any, body: any) => {
+                return (!error && response.statusCode == 200) ? resolve(JSON.stringify(body)) : reject(error)
+            })
         })
-
-    })
     }
 
     updateDatabase(obj: any) {
@@ -20,6 +19,11 @@ module.exports = class realtimeStocks {
     }
 
     getDatabaseResults() {
-        return db.knex.raw(`select * from realtime_stocks`)
+        return db.knex.raw(`select * from realtime_stocks order by timestamp desc limit 10`).then(results => {
+            let deleteIds = results.rows.map(elem => elem.id)
+            return db.knex('realtime_stocks').whereNotIn('id', deleteIds).del().then(() => {
+                return results.rows
+            })
+        })
     }
 }

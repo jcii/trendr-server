@@ -12,7 +12,7 @@ router.get('/', function (req, res, next) {
 router.post('/updateDatabase', function (req, res, next) {
     realtimeStocks.updateDatabase(req.body).then(function () {
         realtimeStocks.getDatabaseResults().then(function (data) {
-            res.send(data.rows);
+            res.send(data);
         });
     });
 });
