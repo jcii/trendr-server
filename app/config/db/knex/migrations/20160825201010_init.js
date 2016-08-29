@@ -49,6 +49,17 @@ return Promise.all([
     table.integer("timestamp")
     table.bigint('created_at')
     table.bigint('updated_at')
+  }),
+  knex.schema.createTable('stock_history', (table) => {
+    table.increments('id').primary()
+    table.integer('users_id').references("users.id")
+    table.string("name")
+    table.string("symbol")
+    table.integer("price")
+    table.string("date_period")
+    table.integer("date_time")
+    table.bigint('created_at')
+    table.bigint('updated_at')
   })
 ])}
 exports.down = (knex, Promise) => {}
