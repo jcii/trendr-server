@@ -32,6 +32,7 @@ app.use(express.static(path.join(__dirname, '/public')));
 // }
 app.use('/cole', require('./routes/API/coleRoute'));
 app.use('/realtimeStocks', require('./routes/API/realtimeStocks'));
+app.use('/stockHistory', require('./routes/API/stockHistory'));
 app.use('/nm', express.static(__dirname + '/../node_modules/'));
 app.use(session({
     resave: false,
