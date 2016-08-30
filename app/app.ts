@@ -1,5 +1,8 @@
 'use strict'
+/// <reference path="./typings/tsd.d.ts"/>
+
 import {Request, Response} from "express"
+
 const express = require('express')
 const path = require('path')
 const favicon = require('serve-favicon')
@@ -19,8 +22,6 @@ app.use((req: Request, res: Response, next: Function) => {
     next()
 })
 app.use(passport.initialize());
-app.use(passport.session());
-app.set('views', path.join(__dirname, 'views'));
 app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
