@@ -1,6 +1,8 @@
 'use strict';
 var stockHistorydb = require('../../config/db/knex/knexConfig');
 var stockHistoryRequest = require('request');
+var dayLookup = require('./services/dayLookup');
+var monthLookup = require('./services/monthLookup');
 module.exports = (function () {
     function StockHistoryClass() {
     }
@@ -11,16 +13,23 @@ module.exports = (function () {
                 if (!error && response.statusCode == 200) {
                     stockHistorydb.knex.raw("delete from stock_history").then(function () {
                         var data = JSON.parse(body);
-                        var datesArray = data.Dates.map(function (date) { return new Date(date.substring(0, 10)).getTime() / 1000; });
+                        var datesArray = data.Dates.map(function (date) {
+                            return {
+                                unix: new Date(date.substring(0, 10)).getTime(),
+                                fullDate: date.substring(0, 10),
+                                year: new Date(date.substring(0, 10)).getFullYear(),
+                                month: monthLookup[Number(new Date(date.substring(0, 10)).getMonth())],
+                                day: dayLookup[Number(new Date(date.substring(0, 10)).getDay())]
+                            };
+                        });
+                        console.log(typeof datesArray[0].unix);
                         var pricesArray = data.Elements[0].DataSeries.close.values;
                         var databaseArray = [];
                         for (var i = 0; i < datesArray.length; i++) {
-                            databaseArray.push(stockHistorydb.knex.raw("insert into stock_history values (default, 1, 'netflix', '" + data.Elements[0].Symbol + "', " + pricesArray[i] + ", '" + obj.DataPeriod + "', " + datesArray[i] + ")").then(function (data) {
-                                return data;
-                            }));
+                            databaseArray.push(stockHistorydb.knex.raw("insert into stock_history values (default, 1, 'netflix', '" + data.Elements[0].Symbol + "', " + pricesArray[i] + ", '" + obj.DataPeriod + "', " + datesArray[i].unix + ", '" + datesArray[i].fullDate + "', '" + datesArray[i].year + "', '" + datesArray[i].month + "', '" + datesArray[i].day + "')").then(function (data) { return data; }));
                         }
                         Promise.all(databaseArray).then(function (promiseData) {
-                            return stockHistorydb.knex.raw("select * from stock_history").then(function (finalData) { return resolve(finalData.rows); });
+                            return stockHistorydb.knex.raw("select * from stock_history order by unix_timestamp").then(function (finalData) { return resolve(finalData.rows); });
                         });
                     });
                 }
