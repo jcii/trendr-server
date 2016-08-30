@@ -18,8 +18,6 @@ app.use(function (req, res, next) {
     next();
 });
 app.use(passport.initialize());
-app.use(passport.session());
-app.set('views', path.join(__dirname, 'views'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
