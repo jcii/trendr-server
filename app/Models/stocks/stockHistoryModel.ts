@@ -18,17 +18,21 @@ module.exports = class StockHistoryClass {
                             return {
                                 unix: new Date(date.substring(0, 10)).getTime(),
                                 fullDate: date.substring(0, 10),
-                                year: new Date(date.substring(0,10)).getFullYear(), 
+                                year: new Date(date.substring(0,10)).getFullYear(),
+                                monthNumber: Number(new Date(date.substring(0, 10)).getMonth()),
                                 month: monthLookup[Number(new Date(date.substring(0, 10)).getMonth())],
+                                dayNumber: Number(new Date(date.substring(0, 10)).getDay()),
                                 day: dayLookup[Number(new Date(date.substring(0, 10)).getDay())]
-                                }
+                            }
                         })
-                        console.log(typeof datesArray[0].unix);
+                        console.log('**********************');
+                        console.log(datesArray[0]);
+                        
                         let pricesArray = data.Elements[0].DataSeries.close.values
                         let databaseArray: any[] = []
                         for (let i = 0; i < datesArray.length; i++) {
                             databaseArray.push(
-                                stockHistorydb.knex.raw(`insert into stock_history values (default, 1, 'netflix', '${data.Elements[0].Symbol}', ${pricesArray[i]}, '${obj.DataPeriod}', ${datesArray[i].unix}, '${datesArray[i].fullDate}', '${datesArray[i].year}', '${datesArray[i].month}', '${datesArray[i].day}')`).then(data => data)
+                                stockHistorydb.knex.raw(`insert into stock_history values (default, 1, 'netflix', '${data.Elements[0].Symbol}', ${pricesArray[i]}, '${obj.DataPeriod}', ${datesArray[i].unix}, '${datesArray[i].fullDate}', '${datesArray[i].year}', '${datesArray[i].monthNumber}', '${datesArray[i].month}', '${datesArray[i].dayNumber}', '${datesArray[i].day}')`).then(data => data)
                             )
                         }
                         Promise.all(databaseArray).then((promiseData) => {
@@ -41,5 +45,4 @@ module.exports = class StockHistoryClass {
             })
         })
     }
-
 }
