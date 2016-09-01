@@ -1,4 +1,5 @@
 'use strict'
+import { Request, Response } from 'express'
 const db = require('../../config/db/knex/knexConfig')
 const request = require('request')
 
