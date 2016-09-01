@@ -8,8 +8,6 @@ const stockHistory = new StockHistoryClass
 
 
 router.post('/', function(req: Request, res: Response, next: Function) {
-    console.log(req.body);
-    
     stockHistory.getStockHistory(req.body).then(data => {
         res.json(data)
     })
