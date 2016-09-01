@@ -1,7 +1,7 @@
 'use strict'
 /// <reference path="./typings/tsd.d.ts"/>
 
-import {Request, Response} from "express"
+import { Request, Response } from "express"
 
 const express = require('express')
 const path = require('path')
