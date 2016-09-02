@@ -45,4 +45,11 @@ module.exports = class StockHistoryClass {
             })
         })
     }
+
+    groupStockHistory(grouping) {
+        return stockHistorydb.knex.raw(`select day, avg(price) as price
+        from stock_history
+        group by day, day_number
+        order by day_number`)
+    }
 }

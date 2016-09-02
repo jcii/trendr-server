@@ -42,5 +42,8 @@ module.exports = (function () {
             });
         });
     };
+    StockHistoryClass.prototype.groupStockHistory = function (grouping) {
+        return stockHistorydb.knex.raw("select day, avg(price) as price\n        from stock_history\n        group by day, day_number\n        order by day_number");
+    };
     return StockHistoryClass;
 }());

@@ -11,9 +11,6 @@ router.get('/', function (req, res, next) {
 });
 router.post('/updateDatabase', function (req, res, next) {
     realtimeStocks.updateDatabase(req.body).then(function () {
-        console.log('MOTHERFUCKERMOTHERFUCKERMOTHERFUCKERMOTHERFUCKER');
-        console.log('MOTHERFUCKERMOTHERFUCKERMOTHERFUCKERMOTHERFUCKER');
-        console.log('MOTHERFUCKERMOTHERFUCKERMOTHERFUCKERMOTHERFUCKER');
         realtimeStocks.getDatabaseResults().then(function (data) {
             res.send(data);
         });
