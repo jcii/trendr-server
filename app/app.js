@@ -22,12 +22,11 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '/public')));
-// for(let route in jsonAPI){
-//   if(jsonAPI.hasOwnProperty(route)){
-//     let routeString = '/' +   route.toString()
-//     app.use(routeString, jsonAPI[route])
-//   }
-// }
+for (var route in jsonAPI) {
+    if (jsonAPI.hasOwnProperty(route)) {
+        app.use(route.toString(), jsonAPI[route]);
+    }
+}
 app.use('/cole', require('./routes/API/coleRoute'));
 app.use('/realtimeStocks', require('./routes/API/realtimeStocks'));
 app.use('/stockHistory', require('./routes/API/stockHistory'));
