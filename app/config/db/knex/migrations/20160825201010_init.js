@@ -44,7 +44,7 @@ return Promise.all([
     table.increments('id').primary()
     table.string("name")
     table.string("symbol")
-    table.integer("price")
+    table.decimal("price")
     table.integer("volume")
     table.bigint("timestamp")
     table.bigint('created_at')
