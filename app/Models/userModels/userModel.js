@@ -7,6 +7,15 @@ module.exports = (function () {
     userModel.prototype.getUsers = function () {
         return db.knex('users');
     };
+    userModel.prototype.getUser = function (user) {
+        return db.knex('users').where(user);
+    };
+    userModel.prototype.createUser = function (user) {
+        return db.knex('users').insert({
+            username: user.username,
+            password: bcrypt.hashSync(user.password, 10)
+        });
+    };
     userModel.prototype.createUserIfNotExists = function (user) {
         console.log(user);
         return db.knex('users').where('username', user.username)

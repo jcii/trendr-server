@@ -9,7 +9,11 @@ router.route('/')
     userModel.getUsers().then(users => res.json(users))
   })
   .post((req: Request, res: Response, next: Function) => {
-    res.json(req.body)
+    userModel.createUser(req.body).then(user => res.sendStatus(200))   
+  })
+router.route('/userCheck')
+  .post((req: Request, res: Response, next: Function) => {
+    userModel.getUser(req.body).then(user => res.json(user))
   })
 
 module.exports = router;

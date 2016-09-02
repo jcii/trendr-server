@@ -6,6 +6,15 @@ module.exports =  class userModel {
   getUsers() {
     return db.knex('users')
   }
+  getUser(user) {
+    return db.knex('users').where(user)
+  }
+  createUser(user) {
+    return db.knex('users').insert({
+      username: user.username, 
+      password: bcrypt.hashSync(user.password, 10), 
+    })
+  }
   createUserIfNotExists(user) {
     console.log(user)
      return db.knex('users').where('username', user.username)

@@ -8,6 +8,10 @@ router.route('/')
     userModel.getUsers().then(function (users) { return res.json(users); });
 })
     .post(function (req, res, next) {
-    res.json(req.body);
+    userModel.createUser(req.body).then(function (user) { return res.sendStatus(200); });
+});
+router.route('/userCheck')
+    .post(function (req, res, next) {
+    userModel.getUser(req.body).then(function (user) { return res.json(user); });
 });
 module.exports = router;
