@@ -2,5 +2,6 @@ module.exports = {
     '/test': require('./API/rootRoute'),
     '/cole': require('./API/coleRoute'),
     '/realtimeStocks': require('./API/realtimeStocks'),
-    '/register': require('./API/registerRoute')
+    '/register': require('./API/registerRoute'),
+    '/stockSymbol': require('./API/stockSymbolRoute')
 };
