@@ -8,8 +8,8 @@ const symbolLookupFun = new SymbolLookupClass
 
 
 
-router.get('/:searchString', function(req: Request, res: Response, next: Function) {
-    symbolLookupFun.getCompany(req.params.searchString).then(data => {
+router.post('/', function(req: Request, res: Response, next: Function) {
+    symbolLookupFun.getCompany(req.body.searchString).then(data => {
         console.log(data.rows);
         res.json(data.rows)
         
