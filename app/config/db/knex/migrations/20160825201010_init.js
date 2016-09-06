@@ -66,6 +66,39 @@ return Promise.all([
     table.string("day")
     table.bigint('created_at')
     table.bigint('updated_at')
+  }),
+  knex.schema.createTable('nyse_companies', (table) => {
+    table.increments('id').primary()
+    table.string("symbol")
+    table.string("company_name")
+    table.string("LastSale")
+    table.string("MarketCap")
+    table.string("IPOyear")
+    table.string("Sector")
+    table.string("industry")
+    table.string("quote")
+  }),
+  knex.schema.createTable('nasdaq_companies', (table) => {
+    table.increments('id').primary()
+    table.string("symbol")
+    table.string("company_name")
+    table.string("LastSale")
+    table.string("MarketCap")
+    table.string("IPOyear")
+    table.string("Sector")
+    table.string("industry")
+    table.string("quote")
+  }),
+  knex.schema.createTable('amex_companies', (table) => {
+    table.increments('id').primary()
+    table.string("symbol")
+    table.string("company_name")
+    table.string("LastSale")
+    table.string("MarketCap")
+    table.string("IPOyear")
+    table.string("Sector")
+    table.string("industry")
+    table.string("quote")
   })
 ])}
 exports.down = (knex, Promise) => {}

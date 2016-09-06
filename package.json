@@ -21,6 +21,7 @@
     "gulp-mocha": "^2.2.0",
     "gulp-typescript": "^2.10.0",
     "knex": "^0.11.10",
+    "knex-seed-file": "^0.1.4",
     "morgan": "~1.7.0",
     "node-schedule": "^1.1.1",
     "node-tweet-stream": "^2.0.1",
