@@ -1,7 +1,7 @@
 module.exports = {
   development: {
     client:'pg',
-    connection: 'postgres://localhost/backend'
+    connection: 'postgres://localhost/trendr'
   },
   production:{
     client:'pg',
