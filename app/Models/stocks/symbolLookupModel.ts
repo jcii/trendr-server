@@ -18,6 +18,7 @@ module.exports = class SymbolLookupClass {
             from nasdaq_companies
             ) companies
             where LOWER(company_name) like LOWER('%${searchString}%')
-            or LOWER(symbol) like LOWER('%${searchString}%')`)
+            or LOWER(symbol) like LOWER('%${searchString}%')
+            limit 10`)
     }
 }
