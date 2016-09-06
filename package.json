@@ -34,6 +34,7 @@
     "serve-favicon": "~2.3.0",
     "superagent": "^1.7.1",
     "tsd": "^0.6.5",
+    "twit": "^2.2.4",
     "twitter": "^1.4.0",
     "typescript-require": "^0.2.9-1",
     "underscore": "^1.8.3"

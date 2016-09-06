@@ -2,16 +2,17 @@ import {Request, Response} from "express";
 const express = require('express');
 const router = express.Router();
 const request = require('request')
-const Twitter = require('twitter')
+const Twit = require('twit')
+
 
 // const TwitterSearchClass = require('../../Models/Twitter/hashTagSearch')
 // const _twitterSearchClass = new TwitterSearchClass
 
- const client: any = new Twitter({
-    consumer_key: 	'guLTqobJ7kUJTqc0Ark6xh4OB',
-    consumer_secret: 'nPSjlhymt9qEeBN6d7lXd0xD3CvvSm1dZF2G3vZpa56vVWafp1',
-    access_token_key: '	773256285630234625-zjqkqJ4DnRXv6YkDAazDBFvuhztFTAE',
-    access_token_secret: '	38u1CvTOoVRRLU5AqYWED7BPPQtfg5uGcy0kRmD2J3LEf'
+ const client: any = new Twit({
+  consumer_key:         'YxFKenEd6yyHQ4xnGiZc1QTqN',
+  consumer_secret:      'XDId696qRMFPnVyCVNhxCAs2Tsz9hrJ9gGTHGV903BxIkoaf6V',
+  access_token:         '46499008-H9zNdNv9mpoj6R3OCKdHBWKqVgEumZxH1irqWT0vo',
+  access_token_secret:  'vrks3LHksxejJWgSWiTlJinPc3fJ0Knsf2Q4xoUlkMswG'
  })
 
 
@@ -25,10 +26,9 @@ const Twitter = require('twitter')
 
 
 router.get('/', function(req: Request, res: Response, next: Function) {
-    // console.log(process.env.twitter_access_token_secret)
-    client.get('search/tweets', function(error, tweets, response) {
-        return error? res.send(error): res.json({tweets, response})
-    });
+   client.get('search/tweets', { q: 'banana since:2011-07-11', count: 100 }, function(err, data, response) {
+  res.json(data)
+    })
 })
 
 module.exports = router;
