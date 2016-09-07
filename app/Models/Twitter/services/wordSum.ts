@@ -3,13 +3,23 @@ const wordSumDb = require('../../../config/db/knex/knexConfig')
 module.exports = {
     sortObj: function(obj) {
         let arr = []
+        let dataPoints = []
+        let axisLabels = []
         for (let key in obj) {
             arr.push([key, obj[key]])
         }
-        return arr.sort((a, b) => a[1] - b[1]).reverse().slice(0, 5).reduce((obj, elem) => {
+        let finalCount = arr.sort((a, b) => a[1] - b[1]).reverse().slice(0, 5).reduce((obj, elem) => {
             obj[elem[0]] = elem[1]
             return obj
         }, {})
+        for (let key in finalCount) {
+            axisLabels.push(key)
+            dataPoints.push(finalCount[key])
+        }
+        return {
+            axisLabels,
+            dataPoints
+        }
     },
 
     createDatabaseArray: function (arr) {
