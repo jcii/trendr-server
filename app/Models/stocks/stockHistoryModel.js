@@ -24,8 +24,6 @@ module.exports = (function () {
                                 day: dayLookup[Number(new Date(date.substring(0, 10)).getDay())]
                             };
                         });
-                        console.log('**********************');
-                        console.log(datesArray[0]);
                         var pricesArray = data.Elements[0].DataSeries.close.values;
                         var databaseArray = [];
                         for (var i = 0; i < datesArray.length; i++) {

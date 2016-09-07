@@ -99,6 +99,17 @@ return Promise.all([
     table.string("Sector")
     table.string("industry")
     table.string("quote")
+  }),
+    knex.schema.createTable('current_keyword_mentions', (table) => {
+    table.increments('id').primary()
+    table.integer('user_id')
+    table.string("text")
+    table.string("hashtags")
+    table.bigint("unix_timestamp")
+    table.string("full_date")
+    table.bigint('created_at')
+    table.bigint('updated_at')
+
   })
 ])}
 exports.down = (knex, Promise) => {}
