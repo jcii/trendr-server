@@ -32,6 +32,8 @@ app.use('/realtimeStocks', require('./routes/API/realtimeStocks'));
 app.use('/stockHistory', require('./routes/API/stockHistory'));
 app.use('/stockSymbol', require('./routes/API/stockSymbolRoute'));
 app.use('/twitterSearch', require('./routes/API/twitterSearchRoute'));
+app.use('/trend', require('./routes/API/trendRoute'));
+app.use('/user', require('./routes/API/userRoute'));
 app.use('/nm', express.static(__dirname + '/../node_modules/'));
 app.use(session({
     resave: false,
