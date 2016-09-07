@@ -1,0 +1,48 @@
+const wordSumDb = require('../../../config/db/knex/knexConfig')
+
+module.exports = {
+    sortObj: function(obj) {
+        let arr = []
+        for (let key in obj) {
+            arr.push([key, obj[key]])
+        }
+        return arr.sort((a, b) => a[1] - b[1]).reverse().slice(0, 5).reduce((obj, elem) => {
+            obj[elem[0]] = elem[1]
+            return obj
+        }, {})
+    },
+
+    createDatabaseArray: function (arr) {
+        let databaseArray = []
+        arr.forEach(tweet => {
+            let unix = new Date(tweet.created_at).getTime()
+            let fullDate = new Date(tweet.created_at).toDateString()
+            let hashtags = ''
+            tweet.entities.hashtags.forEach(elem => hashtags += `${elem.text} `)
+            let text = tweet.text.replace(/[^a-zA-Z0-9\s]/g, '')
+            databaseArray.push(
+                wordSumDb.knex.raw(`insert into current_keyword_mentions values (default, 1, '${text}', '${hashtags}', ${unix}, '${fullDate}')`)
+            )
+        })
+        return databaseArray
+    },
+
+    createWordArray: function (finalData) {
+        let wordArray = []
+        finalData.rows.forEach(elem => {
+            elem.text.split(' ').forEach(word => wordArray.push(word))
+        })
+        return wordArray
+    }, 
+
+    createFinalCount: function (wordArray) {
+        return wordArray.reduce((obj, elem) => {
+            if (elem.length >= 5 && !elem.toLowerCase().includes('hillary')) {
+                obj[elem.toLowerCase()] = obj[elem.toLowerCase()] + 1 || 1
+                return obj
+            } else {
+                return obj
+            }
+        }, {})
+    }
+}
