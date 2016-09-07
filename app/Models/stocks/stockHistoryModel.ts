@@ -25,9 +25,6 @@ module.exports = class StockHistoryClass {
                                 day: dayLookup[Number(new Date(date.substring(0, 10)).getDay())]
                             }
                         })
-                        console.log('**********************');
-                        console.log(datesArray[0]);
-                        
                         let pricesArray = data.Elements[0].DataSeries.close.values
                         let databaseArray: any[] = []
                         for (let i = 0; i < datesArray.length; i++) {
