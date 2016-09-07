@@ -11,13 +11,16 @@ module.exports = {
             obj[elem[0]] = elem[1];
             return obj;
         }, {});
+        var total = 0;
         for (var key in finalCount) {
             axisLabels.push(key);
-            dataPoints.push(finalCount[key]);
+            dataPoints.push(finalCount[key] / 100);
+            total += finalCount[key] / 100;
         }
         return {
             axisLabels: axisLabels,
-            dataPoints: dataPoints
+            dataPoints: dataPoints,
+            total: total
         };
     },
     createDatabaseArray: function (arr) {
