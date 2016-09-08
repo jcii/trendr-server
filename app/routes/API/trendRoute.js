@@ -7,4 +7,7 @@ var trendModel = new TrendModelClass;
 router.get('/', function (req, res, next) {
     trendModel.sayHello().then(function (data) { return res.send(data); });
 });
+router.post('/', function (req, res, next) {
+    trendModel.createTrend(req.body).then(function (data) { return res.json('success!'); });
+});
 module.exports = router;

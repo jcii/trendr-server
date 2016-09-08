@@ -5,6 +5,6 @@ module.exports = {
   '/register': require('./API/registerRoute'),
   '/stockSymbol': require('./API/stockSymbolRoute'),
   '/twitterSearch': require('./API/twitterSearchRoute'),
-  // '/user': require('./API/userRoute'),
+  '/user': require('./API/userRoute'),
   '/trend': require('./API/trendRoute')
 }
