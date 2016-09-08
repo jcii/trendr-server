@@ -1,5 +1,6 @@
 'use strict'
 const Twitter = require('node-tweet-stream')
+const streamService = require('./services/streamService')
 
 const Stream = new Twitter({
     // consumer_key: process.env.twitter_consumer_key,
@@ -12,9 +13,6 @@ const Stream = new Twitter({
   token_secret: 'vrks3LHksxejJWgSWiTlJinPc3fJ0Knsf2Q4xoUlkMswG'
   })
 
-  // Stream.on('tweet', function (tweet) {
-  //   console.log('tweet received', tweet)
-  // })
 
 
 
@@ -25,13 +23,14 @@ module.exports = {
     Stream.track('pizza')
 
     Stream.on('tweet', function (tweet) {
-      console.log(tweet.created_at)
+      // console.log(tweet.created_at)
       console.log(tweet.text);
-      console.log(tweet.user.screen_name)
-      console.log(tweet.user.location)
-      tweet.entities.hashtags.forEach(elem=> {
-        console.log(elem);
-      })
+      // console.log(tweet.user.screen_name)
+      // console.log(tweet.user.location)
+      // tweet.entities.hashtags.forEach(elem=> {
+      //   console.log(elem);
+      // })
+      streamService.uploadTweet(tweet)
     })
 
     Stream.on('error', function (err) {

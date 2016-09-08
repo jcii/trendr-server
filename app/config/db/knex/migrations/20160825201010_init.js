@@ -33,12 +33,6 @@ return Promise.all([
     table.bigint('created_at')
     table.bigint('updated_at')
   }),
-  knex.schema.createTable('keyword_tweets', (table) => {
-    table.increments('id').primary()
-    table.integer("trends_id").references("trends.id")
-    table.bigint('created_at')
-    table.bigint('updated_at')
-  }),
   knex.schema.createTable('realtime_stocks', (table) => {
     table.increments('id').primary()
     table.string("name")
@@ -108,7 +102,16 @@ return Promise.all([
     table.string("full_date")
     table.bigint('created_at')
     table.bigint('updated_at')
-
+  }),
+    knex.schema.createTable('keyword_tweets', (table) => {
+    table.increments('id').primary()
+    table.integer("trends_id").references("trends.id")
+    table.string("text")
+    table.string("hashtags")
+    table.bigint("unix_timestamp")
+    table.string("full_date")
+    table.bigint('created_at')
+    table.bigint('updated_at')
   })
 ])}
 exports.down = (knex, Promise) => {}
