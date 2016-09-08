@@ -11,7 +11,7 @@ return Promise.all([
   }),
   knex.schema.createTable('trends', (table) => {
     table.increments('id').primary()
-    table.integer('users_id').references("users.id")
+    table.integer('user_id').references("users.id")
     table.string("trend_title")
     table.string("trend_description")
     table.bigint('created_at')
@@ -19,7 +19,7 @@ return Promise.all([
   }),
   knex.schema.createTable('twitter_keywords', (table) => {
     table.increments('id').primary()
-    table.integer('trends_id').references("trends.id")
+    table.integer('trend_id').references("trends.id")
     table.string("keyword")
     table.bigint('created_at')
     table.bigint('updated_at')
@@ -28,14 +28,14 @@ return Promise.all([
   knex.schema.createTable('trend_tickers', (table) => {
     table.increments('id').primary()
     table.integer("user_id").references("users.id")
-    table.integer("trends_id").references("trends.id")
+    table.integer("trend_id").references("trends.id")
     table.string("ticker")
     table.bigint('created_at')
     table.bigint('updated_at')
   }),
   knex.schema.createTable('keyword_tweets', (table) => {
     table.increments('id').primary()
-    table.integer("trends_id").references("twitter_keywords.id")
+    table.integer("trend_id").references("twitter_keywords.id")
     table.json("raw_tweet")
     table.bigint('created_at')
     table.bigint('updated_at')
@@ -52,7 +52,7 @@ return Promise.all([
   }),
   knex.schema.createTable('stock_history', (table) => {
     table.increments('id').primary()
-    table.integer('users_id').references("users.id")
+    table.integer('user_id').references("users.id")
     table.string("name")
     table.string("symbol")
     table.integer("price")

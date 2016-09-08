@@ -3,13 +3,46 @@ import { Request, Response } from 'express'
 const trendDb = require('../../config/db/knex/knexConfig')
 const trendService = require('./services/trendServices')
 
+// bookshelf definitions
+const User = trendDb.bookshelf.Model.extend({
+    tableName: 'users',
+    trends: function() {
+        return this.hasMany(Trend)
+    }
+})
+const Trend = trendDb.bookshelf.Model.extend({
+    tableName: 'trends',
+    symbols: function(){
+        return this.hasMany(Symbol)
+    },
+    keywords: function(){
+        return this.hasMany(Keyword)
+    }
+
+})
+const Symbol = trendDb.bookshelf.Model.extend({
+    tableName: 'trend_tickers',
+    trends: function(){
+        return this.belongsToMany(Trend)
+    }
+
+})
+const Keyword = trendDb.bookshelf.Model.extend({
+    tableName: 'twitter_keywords',
+    trends: function(){
+        return this.belongsToMany(Trend)
+    }
+})
+
 module.exports = class TrendClass {
     constructor() { }
-
     sayHello() {
         return new Promise((resolve, reject) => {
             resolve('hello from trend model')
         })
+    }
+    getTrendsForUser(id){
+        return User.forge({id}).fetch({withRelated:['trends.symbols', 'trends.keywords']})
     }
     createTrend(obj) {
         return new Promise((resolve, reject) => {
