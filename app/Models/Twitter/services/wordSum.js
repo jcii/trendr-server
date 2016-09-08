@@ -14,8 +14,8 @@ module.exports = {
         var total = 0;
         for (var key in finalCount) {
             axisLabels.push(key);
-            dataPoints.push(finalCount[key] / 100);
-            total += finalCount[key] / 100;
+            dataPoints.push(finalCount[key]);
+            total += finalCount[key];
         }
         return {
             axisLabels: axisLabels,

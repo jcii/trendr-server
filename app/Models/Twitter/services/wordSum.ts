@@ -15,8 +15,8 @@ module.exports = {
         let total:number = 0
         for (let key in finalCount) {
             axisLabels.push(key)
-            dataPoints.push(finalCount[key]/100)
-            total += finalCount[key]/100
+            dataPoints.push(finalCount[key])
+            total += finalCount[key]
         }
         return {
             axisLabels,
