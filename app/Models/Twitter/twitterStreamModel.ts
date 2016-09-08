@@ -1,6 +1,8 @@
 'use strict'
 const Twitter = require('node-tweet-stream')
 const streamService = require('./services/streamService')
+const streamModelDb = require('../../config/db/knex/knexConfig')
+const StreamWordSum = require('./services/wordSum')
 
 const Stream = new Twitter({
     // consumer_key: process.env.twitter_consumer_key,
@@ -23,13 +25,6 @@ module.exports = {
     Stream.track('pizza')
 
     Stream.on('tweet', function (tweet) {
-      // console.log(tweet.created_at)
-      console.log(tweet.text);
-      // console.log(tweet.user.screen_name)
-      // console.log(tweet.user.location)
-      // tweet.entities.hashtags.forEach(elem=> {
-      //   console.log(elem);
-      // })
       streamService.uploadTweet(tweet)
     })
 
@@ -40,6 +35,16 @@ module.exports = {
 
   endStream: function () {
     Stream.untrack('pizza')
+  }, 
+
+  sumStreamingWords: function() {
+    return new Promise((resolve, reject) => {
+      streamModelDb.knex.raw(`select text from keyword_tweets where trend_id = 1`).then(finalData => {
+        let wordArray = StreamWordSum.createWordArray(finalData)
+        let finalCount = StreamWordSum.createFinalCount(wordArray)
+        resolve(StreamWordSum.sortObj(finalCount))
+      })
+    })
   }
 }
 

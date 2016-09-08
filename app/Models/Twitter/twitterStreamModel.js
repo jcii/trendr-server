@@ -1,6 +1,8 @@
 'use strict';
 var Twitter = require('node-tweet-stream');
 var streamService = require('./services/streamService');
+var streamModelDb = require('../../config/db/knex/knexConfig');
+var StreamWordSum = require('./services/wordSum');
 var Stream = new Twitter({
     // consumer_key: process.env.twitter_consumer_key,
     // consumer_secret: process.env.twitter_consumer_secret,
@@ -15,13 +17,6 @@ module.exports = {
     startStream: function () {
         Stream.track('pizza');
         Stream.on('tweet', function (tweet) {
-            // console.log(tweet.created_at)
-            console.log(tweet.text);
-            // console.log(tweet.user.screen_name)
-            // console.log(tweet.user.location)
-            // tweet.entities.hashtags.forEach(elem=> {
-            //   console.log(elem);
-            // })
             streamService.uploadTweet(tweet);
         });
         Stream.on('error', function (err) {
@@ -30,5 +25,14 @@ module.exports = {
     },
     endStream: function () {
         Stream.untrack('pizza');
+    },
+    sumStreamingWords: function () {
+        return new Promise(function (resolve, reject) {
+            streamModelDb.knex.raw("select text from keyword_tweets where trend_id = 1").then(function (finalData) {
+                var wordArray = StreamWordSum.createWordArray(finalData);
+                var finalCount = StreamWordSum.createFinalCount(wordArray);
+                resolve(StreamWordSum.sortObj(finalCount));
+            });
+        });
     }
 };

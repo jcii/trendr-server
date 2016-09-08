@@ -20,4 +20,9 @@ router.get('/endStream', function(req: Request, res: Response, next: Function) {
     res.send('stream ended')
 })
 
+router.get('/updateStreamGraph', function(req: Request, res: Response, next: Function) {
+    streamModel.sumStreamingWords().then(data => console.log(data))
+    res.send('summing Words')
+})
+
 module.exports = router;
