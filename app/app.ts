@@ -1,5 +1,8 @@
 'use strict'
 /// <reference path="./typings/tsd.d.ts"/>
+process.stderr.on('data', function(data) {
+  console.log(data);
+});
 
 import { Request, Response } from "express"
 

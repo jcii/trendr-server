@@ -10,4 +10,10 @@ router.get('/', function (req, res, next) {
 router.post('/', function (req, res, next) {
     trendModel.createTrend(req.body).then(function (data) { return res.json('success!'); });
 });
+router.route('/userTrends')
+    .get(function (req, res) {
+    trendModel.getTrendsForUser(1)
+        .then(function (trend) { return res.json(trend); })
+        .catch(function (e) { return console.log(e); });
+});
 module.exports = router;
