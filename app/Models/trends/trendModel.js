@@ -1,5 +1,6 @@
 'use strict';
 var trendDb = require('../../config/db/knex/knexConfig');
+var trendService = require('./services/trendServices');
 module.exports = (function () {
     function TrendClass() {
     }
@@ -12,16 +13,9 @@ module.exports = (function () {
         return new Promise(function (resolve, reject) {
             return trendDb.knex.raw("insert into trends values (default, 1, '" + obj.trend_title + "', 'hello there')").then(function (data) {
                 return trendDb.knex.raw("select id from trends where id = (select max(id) from trends)").then(function (id) {
-                    var symbolArr = [];
-                    obj.trend_symbols.forEach(function (elem) {
-                        symbolArr.push(trendDb.knex.raw("insert into trend_tickers values (default, 1, " + id.rows[0].id + ", '" + elem + "')"));
-                    });
+                    var symbolArr = trendService.createSymbolArr(obj.trend_symbols, id.rows[0].id);
                     Promise.all(symbolArr).then(function () {
-                        var keywordArr = [];
-                        console.log(id.rows[0].id);
-                        obj.trend_keywords.forEach(function (elem) {
-                            keywordArr.push(trendDb.knex.raw("insert into twitter_keywords values (default, " + id.rows[0].id + ", '" + elem + "')"));
-                        });
+                        var keywordArr = trendService.createKeywordArr(obj.trend_keywords, id.rows[0].id);
                         Promise.all(keywordArr).then(function () {
                             resolve('success');
                         });
