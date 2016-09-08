@@ -12,4 +12,8 @@ router.get('/', function(req: Request, res: Response, next: Function) {
     trendModel.sayHello().then(data => res.send(data))
 });
 
+router.post('/', function(req: Request, res: Response, next: Function) {
+    trendModel.createTrend(req.body).then(data => res.json('success!'))
+});
+
 module.exports = router;
