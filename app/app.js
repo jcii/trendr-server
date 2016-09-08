@@ -1,4 +1,8 @@
 'use strict';
+/// <reference path="./typings/tsd.d.ts"/>
+process.stderr.on('data', function (data) {
+    console.log(data);
+});
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
