@@ -112,9 +112,6 @@ return Promise.all([
     table.string("full_date")
     table.bigint('created_at')
     table.bigint('updated_at')
-  }),
-    knex.schema.createTable('test', (table) => {
-    table.string("text")
   })
 ])}
 exports.down = (knex, Promise) => {}
