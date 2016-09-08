@@ -35,8 +35,8 @@ return Promise.all([
   }),
   knex.schema.createTable('keyword_tweets', (table) => {
     table.increments('id').primary()
-    table.integer("trends_id").references("twitter_keywords.id")
-    table.json("raw_tweet")
+    table.integer("trends_id").references("trends.id")
+    // table.json("raw_tweet")
     table.bigint('created_at')
     table.bigint('updated_at')
   }),
