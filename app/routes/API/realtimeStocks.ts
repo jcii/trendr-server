@@ -12,15 +12,16 @@ const user = new UserClass
 
 router.post('/', function(req: Request, res: Response, next: Function) {
     user.getUserId(req.body.user, req.body.trendId).then(data => {
-    realtimeStocks.getRealtimeStockPrice(data.ticker).then(data => {
-        res.json(JSON.parse(data))
-    })
+        realtimeStocks.getRealtimeStockPrice(data.ticker).then(data => {
+            res.json(JSON.parse(data))
+        })
     })
 });
 
 router.post('/updateDatabase', function(req: Request, res: Response, next: Function) {
     realtimeStocks.updateDatabase(req.body).then(() => {
-        realtimeStocks.getDatabaseResults().then((data: any) => {
+        console.log(req.body)
+        realtimeStocks.getDatabaseResults(req.body.Symbol).then((data: any) => {
             res.send(data)
         })
     })

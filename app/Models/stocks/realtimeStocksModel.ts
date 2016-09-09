@@ -18,10 +18,10 @@ module.exports = class realtimeStocks {
         return db.knex.raw(`insert into realtime_stocks values (default, '${obj.Name}', '${obj.Symbol}', ${obj.LastPrice}, ${obj.Volume}, ${dbDate})`)
     }
 
-    getDatabaseResults() {
+    getDatabaseResults(symbol) {
         return db.knex.raw(`select * from realtime_stocks order by timestamp desc limit 10`).then(results => {
             let deleteIds = results.rows.map(elem => elem.id)
-            return db.knex('realtime_stocks').whereNotIn('id', deleteIds).del().then(() => {
+            return db.knex('realtime_stocks').where('symbol', symbol).whereNotIn('id', deleteIds).del().then(() => {
                 return results.rows
             })
         })

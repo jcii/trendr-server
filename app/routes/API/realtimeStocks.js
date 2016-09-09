@@ -15,7 +15,8 @@ router.post('/', function (req, res, next) {
 });
 router.post('/updateDatabase', function (req, res, next) {
     realtimeStocks.updateDatabase(req.body).then(function () {
-        realtimeStocks.getDatabaseResults().then(function (data) {
+        console.log(req.body);
+        realtimeStocks.getDatabaseResults(req.body.Symbol).then(function (data) {
             res.send(data);
         });
     });
