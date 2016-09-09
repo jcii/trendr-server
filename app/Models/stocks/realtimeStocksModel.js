@@ -4,9 +4,9 @@ var request = require('request');
 module.exports = (function () {
     function realtimeStocks() {
     }
-    realtimeStocks.prototype.getRealtimeStockPrice = function () {
+    realtimeStocks.prototype.getRealtimeStockPrice = function (symbol) {
         return new Promise(function (resolve, reject) {
-            request("http://dev.markitondemand.com/MODApis/Api/v2/Quote/json?symbol=NFLX", function (error, response, body) {
+            request("http://dev.markitondemand.com/MODApis/Api/v2/Quote/json?symbol=" + symbol, function (error, response, body) {
                 return (!error && response.statusCode == 200) ? resolve(JSON.stringify(body)) : reject(error);
             });
         });
