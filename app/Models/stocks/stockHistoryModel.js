@@ -7,7 +7,7 @@ module.exports = (function () {
     function StockHistoryClass() {
     }
     StockHistoryClass.prototype.getStockHistory = function (obj) {
-        var url = "http://dev.markitondemand.com/MODApis/Api/v2/InteractiveChart/json?parameters={\"Normalized\":false,\"NumberOfDays\":" + obj.NumberOfDays + ",\"DataPeriod\":\"" + obj.DataPeriod + "\",\"Elements\":[{\"Symbol\":\"" + obj.Symbol + "\",\"Type\":\"price\",\"Params\":[\"c\"]}]}";
+        var url = "http://dev.markitondemand.com/MODApis/Api/v2/InteractiveChart/json?parameters={\"Normalized\":false,\"NumberOfDays\":" + obj.NumberOfDays + ",\"DataPeriod\":\"" + obj.DataPeriod + "\",\"Elements\":[{\"Symbol\":\"" + obj.ticker + "\",\"Type\":\"price\",\"Params\":[\"c\"]}]}";
         return new Promise(function (resolve, reject) {
             stockHistoryRequest(url, function (error, response, body) {
                 if (!error && response.statusCode == 200) {

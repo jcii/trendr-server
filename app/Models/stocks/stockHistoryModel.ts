@@ -8,7 +8,7 @@ const monthLookup = require('./services/monthLookup')
 module.exports = class StockHistoryClass {
     constructor() {}
     getStockHistory(obj) {
-        let url = `http://dev.markitondemand.com/MODApis/Api/v2/InteractiveChart/json?parameters={"Normalized":false,"NumberOfDays":${obj.NumberOfDays},"DataPeriod":"${obj.DataPeriod}","Elements":[{"Symbol":"${obj.Symbol}","Type":"price","Params":["c"]}]}`
+        let url = `http://dev.markitondemand.com/MODApis/Api/v2/InteractiveChart/json?parameters={"Normalized":false,"NumberOfDays":${obj.NumberOfDays},"DataPeriod":"${obj.DataPeriod}","Elements":[{"Symbol":"${obj.ticker}","Type":"price","Params":["c"]}]}`
         return new Promise((resolve: any, reject: any) => {
             stockHistoryRequest(url, (error: any, response: any, body: any) => {
                 if (!error && response.statusCode == 200) {
