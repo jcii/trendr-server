@@ -6,6 +6,9 @@ const request = require('request')
 const StockHistoryClass = require('../../Models/stocks/stockHistoryModel')
 const stockHistory = new StockHistoryClass
 
+const UserClass = require('../../Models/userModels/userProfileModel')
+const user = new UserClass
+
 
 router.post('/groupBy', function(req: Request, res: Response, next: Function) {
     stockHistory.groupStockHistory(req.body.grouping).then(data => {
@@ -15,8 +18,13 @@ router.post('/groupBy', function(req: Request, res: Response, next: Function) {
 
 
 router.post('/', function(req: Request, res: Response, next: Function) {
-    stockHistory.getStockHistory(req.body).then(data => {
-        res.json(data)
+    user.getUserId(req.body.user, req.body.trendId).then(data => {
+        req.body.user_id = data.user_id
+        req.body.ticker = data.ticker
+        console.log(req.body);
+        stockHistory.getStockHistory(req.body).then(data => {
+            res.json(data)
+        })  
     })
 });
 
