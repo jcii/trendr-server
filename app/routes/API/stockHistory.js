@@ -13,9 +13,7 @@ router.post('/groupBy', function (req, res, next) {
 });
 router.post('/', function (req, res, next) {
     user.getUserId(req.body.user, req.body.trendId).then(function (data) {
-        req.body.user_id = data.user_id;
         req.body.ticker = data.ticker;
-        console.log(req.body);
         stockHistory.getStockHistory(req.body).then(function (data) {
             res.json(data);
         });

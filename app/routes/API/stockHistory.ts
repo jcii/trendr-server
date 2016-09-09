@@ -19,9 +19,7 @@ router.post('/groupBy', function(req: Request, res: Response, next: Function) {
 
 router.post('/', function(req: Request, res: Response, next: Function) {
     user.getUserId(req.body.user, req.body.trendId).then(data => {
-        req.body.user_id = data.user_id
         req.body.ticker = data.ticker
-        console.log(req.body);
         stockHistory.getStockHistory(req.body).then(data => {
             res.json(data)
         })  
