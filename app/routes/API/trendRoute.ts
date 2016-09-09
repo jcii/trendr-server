@@ -17,8 +17,8 @@ router.post('/', function(req: Request, res: Response, next: Function) {
 });
 
 router.route('/userTrends')
-    .get((req: Request, res: Response) => {
-        trendModel.getTrendsForUser(1)
+    .post((req: Request, res: Response) => {
+        trendModel.getTrendsForUser(req.body.user_id)
             .then(trend => res.json(trend))
             .catch(e => console.log(e))
     })
