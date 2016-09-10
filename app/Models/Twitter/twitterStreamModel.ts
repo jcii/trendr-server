@@ -21,11 +21,11 @@ const Stream = new Twitter({
 
 
 module.exports = {
-  startStream: function () {
-    Stream.track('pizza')
+  startStream: function (keyword, trend_id) {
+    Stream.track(keyword)
 
     Stream.on('tweet', function (tweet) {
-      streamService.uploadTweet(tweet)
+      streamService.uploadTweet(tweet, trend_id)
     })
 
     Stream.on('error', function (err) {
@@ -33,19 +33,31 @@ module.exports = {
     })
   },
 
-  endStream: function () {
-    Stream.untrack('pizza')
+  endStream: function (keyword) {
+    Stream.untrack(keyword)
   }, 
 
-  sumStreamingWords: function(trend_id, user_id) {
+  sumStreamingWords: function(trend_id) {
+
     return new Promise((resolve, reject) => {
-      streamModelDb.knex.raw(`select text from keyword_tweets where trend_id = 1`).then(finalData => {
+      streamModelDb.knex.raw(`select text 
+        from keyword_tweets 
+        where trend_id = ${trend_id}`).then(finalData => {
         let wordArray = StreamWordSum.createWordArray(finalData)
         let finalCount = StreamWordSum.createFinalCount(wordArray)
         resolve(StreamWordSum.sortObj(finalCount))
       })
     })
+  }, 
+
+  getActivekeyword: function(trend_id) {
+    return new Promise((resolve, reject) => {
+      console.log('STARTING SEARCH');
+      return streamModelDb.knex.raw(`select keyword from twitter_keywords where trend_id = ${trend_id} and is_active = true`)
+        .then(keyword => resolve(keyword.rows[0].keyword)).catch(e => console.log(e))
+    })
   }
+
 }
 
 
