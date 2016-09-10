@@ -4,7 +4,6 @@ return Promise.all([
     table.increments('id').primary()
     table.string('username')
     table.string('password')
-    table.string('email')
     table.string('jwt')
     table.bigint('created_at')
     table.bigint('updated_at')
@@ -13,6 +12,7 @@ return Promise.all([
     table.increments('id').primary()
     table.integer('user_id').references("users.id")
     table.string("trend_title")
+    table.boolean("is_primary")
     table.string("trend_description")
     table.bigint('created_at')
     table.bigint('updated_at')
@@ -21,6 +21,7 @@ return Promise.all([
     table.increments('id').primary()
     table.integer('trend_id').references("trends.id")
     table.string("keyword")
+    table.boolean("is_active")
     table.bigint('created_at')
     table.bigint('updated_at')
 

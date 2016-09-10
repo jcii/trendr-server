@@ -37,7 +37,7 @@ module.exports = {
     Stream.untrack('pizza')
   }, 
 
-  sumStreamingWords: function() {
+  sumStreamingWords: function(trend_id, user_id) {
     return new Promise((resolve, reject) => {
       streamModelDb.knex.raw(`select text from keyword_tweets where trend_id = 1`).then(finalData => {
         let wordArray = StreamWordSum.createWordArray(finalData)
