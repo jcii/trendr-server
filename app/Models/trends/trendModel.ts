@@ -46,7 +46,7 @@ module.exports = class TrendClass {
     }
     createTrend(obj) {
         return new Promise((resolve, reject) => {
-            return trendDb.knex.raw(`insert into trends values (default, 1, '${obj.trend_title}', 'hello there')`).then((data) => {
+            return trendDb.knex.raw(`insert into trends values (default, 1, '${obj.trend_title}', false, 'hello there')`).then((data) => {
                 return trendDb.knex.raw(`select id from trends where id = (select max(id) from trends)`).then(id => {
                     let symbolArr: any[] = trendService.createSymbolArr(obj.trend_symbols, id.rows[0].id)                    
                     Promise.all(symbolArr).then(() => {

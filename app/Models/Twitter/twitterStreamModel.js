@@ -14,8 +14,8 @@ var Stream = new Twitter({
     token_secret: 'vrks3LHksxejJWgSWiTlJinPc3fJ0Knsf2Q4xoUlkMswG'
 });
 module.exports = {
-    startStream: function () {
-        Stream.track('pizza');
+    startStream: function (keyword) {
+        Stream.track(keyword);
         Stream.on('tweet', function (tweet) {
             streamService.uploadTweet(tweet);
         });
@@ -26,13 +26,20 @@ module.exports = {
     endStream: function () {
         Stream.untrack('pizza');
     },
-    sumStreamingWords: function (trend_id, user_id) {
+    sumStreamingWords: function (trend_id) {
         return new Promise(function (resolve, reject) {
-            streamModelDb.knex.raw("select text from keyword_tweets where trend_id = 1").then(function (finalData) {
+            streamModelDb.knex.raw("select text \n        from keyword_tweets \n        where trend_id = " + trend_id + " and is_active = true").then(function (finalData) {
                 var wordArray = StreamWordSum.createWordArray(finalData);
                 var finalCount = StreamWordSum.createFinalCount(wordArray);
                 resolve(StreamWordSum.sortObj(finalCount));
             });
+        });
+    },
+    getActivekeyword: function (trend_id) {
+        return new Promise(function (resolve, reject) {
+            console.log('STARTING SEARCH');
+            return streamModelDb.knex.raw("select keyword from twitter_keywords where trend_id = " + trend_id + " and is_active = true")
+                .then(function (keyword) { return resolve(keyword.rows[0].keyword); }).catch(function (e) { return console.log(e); });
         });
     }
 };
