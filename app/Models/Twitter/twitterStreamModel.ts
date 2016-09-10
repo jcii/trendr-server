@@ -21,11 +21,11 @@ const Stream = new Twitter({
 
 
 module.exports = {
-  startStream: function (keyword) {
+  startStream: function (keyword, trend_id) {
     Stream.track(keyword)
 
     Stream.on('tweet', function (tweet) {
-      streamService.uploadTweet(tweet)
+      streamService.uploadTweet(tweet, trend_id)
     })
 
     Stream.on('error', function (err) {
@@ -33,15 +33,16 @@ module.exports = {
     })
   },
 
-  endStream: function () {
-    Stream.untrack('pizza')
+  endStream: function (keyword) {
+    Stream.untrack(keyword)
   }, 
 
   sumStreamingWords: function(trend_id) {
+
     return new Promise((resolve, reject) => {
       streamModelDb.knex.raw(`select text 
         from keyword_tweets 
-        where trend_id = ${trend_id} and is_active = true`).then(finalData => {
+        where trend_id = ${trend_id}`).then(finalData => {
         let wordArray = StreamWordSum.createWordArray(finalData)
         let finalCount = StreamWordSum.createFinalCount(wordArray)
         resolve(StreamWordSum.sortObj(finalCount))

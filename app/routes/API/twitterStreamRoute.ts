@@ -13,7 +13,7 @@ router.get('/', function(req: Request, res: Response, next: Function) {
 
 router.post('/startStream', function(req: Request, res: Response, next: Function) {
     streamModel.getActivekeyword(req.body.trend_id).then(keyword => {
-        streamModel.startStream(keyword)
+        streamModel.startStream(keyword, req.body.trend_id)
         res.json('starting stream')
     })
 })

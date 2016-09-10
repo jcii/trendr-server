@@ -8,7 +8,7 @@ router.get('/', function (req, res, next) {
 });
 router.post('/startStream', function (req, res, next) {
     streamModel.getActivekeyword(req.body.trend_id).then(function (keyword) {
-        streamModel.startStream(keyword);
+        streamModel.startStream(keyword, req.body.trend_id);
         res.json('starting stream');
     });
 });

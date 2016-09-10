@@ -14,21 +14,21 @@ var Stream = new Twitter({
     token_secret: 'vrks3LHksxejJWgSWiTlJinPc3fJ0Knsf2Q4xoUlkMswG'
 });
 module.exports = {
-    startStream: function (keyword) {
+    startStream: function (keyword, trend_id) {
         Stream.track(keyword);
         Stream.on('tweet', function (tweet) {
-            streamService.uploadTweet(tweet);
+            streamService.uploadTweet(tweet, trend_id);
         });
         Stream.on('error', function (err) {
             console.log('Oh no');
         });
     },
-    endStream: function () {
-        Stream.untrack('pizza');
+    endStream: function (keyword) {
+        Stream.untrack(keyword);
     },
     sumStreamingWords: function (trend_id) {
         return new Promise(function (resolve, reject) {
-            streamModelDb.knex.raw("select text \n        from keyword_tweets \n        where trend_id = " + trend_id + " and is_active = true").then(function (finalData) {
+            streamModelDb.knex.raw("select text \n        from keyword_tweets \n        where trend_id = " + trend_id).then(function (finalData) {
                 var wordArray = StreamWordSum.createWordArray(finalData);
                 var finalCount = StreamWordSum.createFinalCount(wordArray);
                 resolve(StreamWordSum.sortObj(finalCount));
