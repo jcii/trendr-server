@@ -1,6 +1,6 @@
 var wordSumDb = require('../../../config/db/knex/knexConfig');
 module.exports = {
-    sortObj: function (obj) {
+    sortObj: function (obj, trend_id) {
         var arr = [];
         var dataPoints = [];
         var axisLabels = [];
@@ -42,9 +42,9 @@ module.exports = {
         });
         return wordArray;
     },
-    createFinalCount: function (wordArray) {
+    createFinalCount: function (wordArray, keyword) {
         return wordArray.reduce(function (obj, elem) {
-            if (elem.length >= 5 && !elem.toLowerCase().includes('hillary')) {
+            if (elem.length >= 5 && !elem.toLowerCase().includes(keyword)) {
                 obj[elem.toLowerCase()] = obj[elem.toLowerCase()] + 1 || 1;
                 return obj;
             }

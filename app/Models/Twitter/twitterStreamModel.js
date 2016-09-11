@@ -24,12 +24,12 @@ var exportObj = {
     endStream: function (keyword) {
         Stream.untrack(keyword);
     },
-    sumStreamingWords: function (trend_id) {
+    sumStreamingWords: function (trend_id, keyword) {
         return new Promise(function (resolve, reject) {
             streamModelDb.knex.raw("select text from keyword_tweets where trend_id = " + trend_id).then(function (finalData) {
                 var wordArray = StreamWordSum.createWordArray(finalData);
-                var finalCount = StreamWordSum.createFinalCount(wordArray);
-                resolve(StreamWordSum.sortObj(finalCount));
+                var finalCount = StreamWordSum.createFinalCount(wordArray, keyword);
+                resolve(StreamWordSum.sortObj(finalCount, trend_id));
             });
         });
     },
@@ -38,11 +38,17 @@ var exportObj = {
             return streamModelDb.knex.raw("select keyword from twitter_keywords where trend_id = " + trend_id + " and is_active = true")
                 .then(function (keyword) { return resolve(keyword.rows[0].keyword); }).catch(function (e) { return console.log(e); });
         });
+    },
+    getTweetCount: function (trend_id) {
+        return new Promise(function (resolve, reject) {
+            return streamModelDb.knex.raw("select count(*) from keyword_tweets where trend_id = " + trend_id).then(function (count) {
+                resolve(count.rows[0].count);
+            });
+        });
     }
 };
-var globalTrendId = exportObj.trend_id;
+var globalTrendId = 0;
 Stream.on('tweet', function (tweet) {
-    console.log(globalTrendId);
     streamService.uploadTweet(tweet, globalTrendId);
 });
 module.exports = exportObj;

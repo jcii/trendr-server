@@ -33,12 +33,12 @@ let exportObj = {
     Stream.untrack(keyword)
   }, 
 
-  sumStreamingWords: function(trend_id) {
+  sumStreamingWords: function(trend_id, keyword) {
     return new Promise((resolve, reject) => {
       streamModelDb.knex.raw(`select text from keyword_tweets where trend_id = ${trend_id}`).then(finalData => {
         let wordArray = StreamWordSum.createWordArray(finalData)
-        let finalCount = StreamWordSum.createFinalCount(wordArray)
-        resolve(StreamWordSum.sortObj(finalCount))
+        let finalCount = StreamWordSum.createFinalCount(wordArray, keyword)
+        resolve(StreamWordSum.sortObj(finalCount, trend_id))
       })
     })
   }, 
@@ -48,13 +48,20 @@ let exportObj = {
       return streamModelDb.knex.raw(`select keyword from twitter_keywords where trend_id = ${trend_id} and is_active = true`)
         .then(keyword => resolve(keyword.rows[0].keyword)).catch(e => console.log(e))
     })
+  },
+
+  getTweetCount: (trend_id) => {
+    return new Promise((resolve, reject) => {
+      return streamModelDb.knex.raw(`select count(*) from keyword_tweets where trend_id = ${trend_id}`).then(count => {
+        resolve(count.rows[0].count)
+      })
+    })
   }
 
 }
 
-let globalTrendId = exportObj.trend_id
+let globalTrendId:number = 0
 Stream.on('tweet', (tweet) => {
-  console.log(globalTrendId)
   streamService.uploadTweet(tweet, globalTrendId)
 })
 

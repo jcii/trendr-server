@@ -2,7 +2,6 @@ import {Request, Response} from "express";
 const express = require('express');
 const router = express.Router();
 const streamModel = require('../../Models/twitter/twitterStreamModel')
-const userModel = require('../../Models/twitter/twitterStreamModel')
 
 
 
@@ -26,8 +25,13 @@ router.post('/endStream', function(req: Request, res: Response, next: Function) 
 })
 
 router.post('/updateStreamGraph', function(req: Request, res: Response, next: Function) {
-    console.log(req.body);
-    streamModel.sumStreamingWords(req.body.trend_id).then(data => res.json(data))
+    streamModel.getActivekeyword(req.body.trend_id).then(keyword => {
+        streamModel.sumStreamingWords(req.body.trend_id, keyword).then(data => res.json(data))  
+    })
+})
+
+router.post('/tweetCount', function(req: Request, res: Response, next: Function) {
+    streamModel.getTweetCount(req.body.trend_id).then(count => res.json(count))
 })
 
 module.exports = router;
