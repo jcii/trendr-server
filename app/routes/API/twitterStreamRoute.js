@@ -2,7 +2,6 @@
 var express = require('express');
 var router = express.Router();
 var streamModel = require('../../Models/twitter/twitterStreamModel');
-var userModel = require('../../Models/twitter/twitterStreamModel');
 router.get('/', function (req, res, next) {
     res.send('hello');
 });
@@ -19,7 +18,11 @@ router.post('/endStream', function (req, res, next) {
     });
 });
 router.post('/updateStreamGraph', function (req, res, next) {
-    console.log(req.body);
-    streamModel.sumStreamingWords(req.body.trend_id).then(function (data) { return res.json(data); });
+    streamModel.getActivekeyword(req.body.trend_id).then(function (keyword) {
+        streamModel.sumStreamingWords(req.body.trend_id, keyword).then(function (data) { return res.json(data); });
+    });
+});
+router.post('/tweetCount', function (req, res, next) {
+    streamModel.getTweetCount(req.body.trend_id).then(function (count) { return res.json(count); });
 });
 module.exports = router;
