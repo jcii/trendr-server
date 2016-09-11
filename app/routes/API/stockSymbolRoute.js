@@ -6,7 +6,6 @@ var SymbolLookupClass = require('../../Models/stocks/symbolLookupModel');
 var symbolLookupFun = new SymbolLookupClass;
 router.post('/', function (req, res, next) {
     symbolLookupFun.getCompany(req.body.searchString).then(function (data) {
-        console.log(data.rows);
         res.json(data.rows);
     });
 });

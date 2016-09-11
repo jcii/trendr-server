@@ -13,12 +13,10 @@ var Stream = new Twitter({
     token: '46499008-H9zNdNv9mpoj6R3OCKdHBWKqVgEumZxH1irqWT0vo',
     token_secret: 'vrks3LHksxejJWgSWiTlJinPc3fJ0Knsf2Q4xoUlkMswG'
 });
-module.exports = {
+var exportObj = {
     startStream: function (keyword, trend_id) {
         Stream.track(keyword);
-        Stream.on('tweet', function (tweet) {
-            streamService.uploadTweet(tweet, trend_id);
-        });
+        globalTrendId = trend_id;
         Stream.on('error', function (err) {
             console.log('Oh no');
         });
@@ -28,7 +26,7 @@ module.exports = {
     },
     sumStreamingWords: function (trend_id) {
         return new Promise(function (resolve, reject) {
-            streamModelDb.knex.raw("select text \n        from keyword_tweets \n        where trend_id = " + trend_id).then(function (finalData) {
+            streamModelDb.knex.raw("select text from keyword_tweets where trend_id = " + trend_id).then(function (finalData) {
                 var wordArray = StreamWordSum.createWordArray(finalData);
                 var finalCount = StreamWordSum.createFinalCount(wordArray);
                 resolve(StreamWordSum.sortObj(finalCount));
@@ -37,9 +35,14 @@ module.exports = {
     },
     getActivekeyword: function (trend_id) {
         return new Promise(function (resolve, reject) {
-            console.log('STARTING SEARCH');
             return streamModelDb.knex.raw("select keyword from twitter_keywords where trend_id = " + trend_id + " and is_active = true")
                 .then(function (keyword) { return resolve(keyword.rows[0].keyword); }).catch(function (e) { return console.log(e); });
         });
     }
 };
+var globalTrendId = exportObj.trend_id;
+Stream.on('tweet', function (tweet) {
+    console.log(globalTrendId);
+    streamService.uploadTweet(tweet, globalTrendId);
+});
+module.exports = exportObj;

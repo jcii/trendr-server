@@ -20,7 +20,6 @@ router.post('/', function(req: Request, res: Response, next: Function) {
 
 router.post('/updateDatabase', function(req: Request, res: Response, next: Function) {
     realtimeStocks.updateDatabase(req.body).then(() => {
-        console.log(req.body)
         realtimeStocks.getDatabaseResults(req.body.Symbol).then((data: any) => {
             res.send(data)
         })
