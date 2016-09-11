@@ -56,6 +56,12 @@ let exportObj = {
         resolve(count.rows[0].count)
       })
     })
+  },
+
+  clearTweets: (trend_id) => {
+    return new Promise((resolve, reject) => {
+      return streamModelDb.knex.raw(`delete from keyword_tweets where trend_id = ${trend_id}`).then(() => resolve())
+    })
   }
 
 }

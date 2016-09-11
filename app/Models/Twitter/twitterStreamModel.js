@@ -45,6 +45,11 @@ var exportObj = {
                 resolve(count.rows[0].count);
             });
         });
+    },
+    clearTweets: function (trend_id) {
+        return new Promise(function (resolve, reject) {
+            return streamModelDb.knex.raw("delete from keyword_tweets where trend_id = " + trend_id).then(function () { return resolve(); });
+        });
     }
 };
 var globalTrendId = 0;

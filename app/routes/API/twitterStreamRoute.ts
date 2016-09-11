@@ -34,4 +34,9 @@ router.post('/tweetCount', function(req: Request, res: Response, next: Function)
     streamModel.getTweetCount(req.body.trend_id).then(count => res.json(count))
 })
 
+router.post('/clearTweets', function(req: Request, res: Response, next: Function) {
+    streamModel.clearTweets(req.body.trend_id).then(() => res.json('Tweets cleared'))
+})
+
+
 module.exports = router;

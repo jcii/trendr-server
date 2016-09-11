@@ -25,4 +25,7 @@ router.post('/updateStreamGraph', function (req, res, next) {
 router.post('/tweetCount', function (req, res, next) {
     streamModel.getTweetCount(req.body.trend_id).then(function (count) { return res.json(count); });
 });
+router.post('/clearTweets', function (req, res, next) {
+    streamModel.clearTweets(req.body.trend_id).then(function () { return res.json('Tweets cleared'); });
+});
 module.exports = router;
