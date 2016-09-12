@@ -9,7 +9,6 @@ module.exports = class TrendClass {
         console.log(username)
         return new Promise((resolve, reject) => {
             userDb.knex.raw(`select id from users where username = '${username}'`).then(id => {
-                console.log(typeof id.rows[0].id)
                 userDb.knex.raw(`select tweets_collected from tweets_collected where user_id = ${id.rows[0].id}`).then((totalTweets) => {
                     userDb.knex.raw(`select stock_prices_collected from stock_prices_collected where user_id = ${id.rows[0].id}`).then(stockPrices => {
                         userDb.knex.raw(`select count(*) from trends where user_id = ${id.rows[0].id}`).then(trends => {
