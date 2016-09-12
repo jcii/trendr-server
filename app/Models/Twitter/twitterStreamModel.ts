@@ -65,10 +65,6 @@ let exportObj = {
   }, 
 
   tweetsForDisplay: (trend_id, keyword, topWords, usedIds)  => {
-    console.log(trend_id)
-    console.log(keyword)
-    console.log(topWords)
-    console.log(usedIds)
     return new Promise((resolve, reject) => {
       return streamModelDb.knex('keyword_tweets').where('trend_id', trend_id)
         .andWhere('text', 'like', `%${keyword}%`)

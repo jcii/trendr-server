@@ -17,6 +17,13 @@ return Promise.all([
     table.bigint('created_at')
     table.bigint('updated_at')
   }),
+    knex.schema.createTable('tweets_collected', (table) => {
+    table.increments('id').primary()
+    table.integer('user_id').references("users.id")
+    table.integer("tweets_collected")
+    table.bigint('created_at')
+    table.bigint('updated_at')
+  }),
   knex.schema.createTable('twitter_keywords', (table) => {
     table.increments('id').primary()
     table.integer('trend_id').references("trends.id")
@@ -24,7 +31,6 @@ return Promise.all([
     table.boolean("is_active")
     table.bigint('created_at')
     table.bigint('updated_at')
-
   }),
   knex.schema.createTable('trend_tickers', (table) => {
     table.increments('id').primary()

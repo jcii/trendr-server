@@ -14,6 +14,12 @@ module.exports = (function () {
         return db.knex('users').insert({
             username: user.username,
             password: bcrypt.hashSync(user.password, 10)
+        }).then(function () {
+            db.knex.raw("select id from users where id = (select max(id) from users)").then(function (id) {
+                db.knex.raw("insert into tweets_collected values (default, " + id.rows[0].id + ", 0)").then(function () {
+                    console.log('instantiated tweets collected');
+                });
+            });
         });
     };
     userModel.prototype.createUserIfNotExists = function (user) {

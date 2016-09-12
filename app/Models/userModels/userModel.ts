@@ -13,7 +13,13 @@ module.exports =  class userModel {
     return db.knex('users').insert({
       username: user.username, 
       password: bcrypt.hashSync(user.password, 10), 
-    })
+    }).then(() => {
+        db.knex.raw(`select id from users where id = (select max(id) from users)`).then(id => {
+          db.knex.raw(`insert into tweets_collected values (default, ${id.rows[0].id}, 0)`).then(() => {
+            console.log('instantiated tweets collected')
+          })
+        })
+      })
   }
   createUserIfNotExists(user) {
     console.log(user)
