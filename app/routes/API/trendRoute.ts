@@ -22,7 +22,14 @@ router.post('/', function(req: Request, res: Response, next: Function) {
 router.route('/userTrends')
     .post((req: Request, res: Response) => {
         trendModel.getTrendsForUser(req.body.user_id)
-            .then(trend => res.json(trend))
+            .then(trend => {
+                trendModel.getStockHistories(trend.attributes.id).then(stockHistories => {
+                    res.json({
+                        trend, 
+                        stockHistories
+                    })
+                })
+            })
             .catch(e => console.log(e))
     })
 
