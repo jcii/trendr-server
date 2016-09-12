@@ -50,6 +50,26 @@ var exportObj = {
         return new Promise(function (resolve, reject) {
             return streamModelDb.knex.raw("delete from keyword_tweets where trend_id = " + trend_id).then(function () { return resolve(); });
         });
+    },
+    tweetsForDisplay: function (trend_id, keyword, topWords, usedIds) {
+        console.log(trend_id);
+        console.log(keyword);
+        console.log(topWords);
+        console.log(usedIds);
+        return new Promise(function (resolve, reject) {
+            return streamModelDb.knex('keyword_tweets').where('trend_id', trend_id)
+                .andWhere('text', 'like', "%" + keyword + "%")
+                .andWhere('text', 'like', "%" + topWords[0] + "%")
+                .orWhere('text', 'like', "%" + topWords[1] + "%")
+                .orWhere('text', 'like', "%" + topWords[2] + "%")
+                .orWhere('text', 'like', "%" + topWords[3] + "%")
+                .orWhere('text', 'like', "%" + topWords[4] + "%")
+                .then(function (data) {
+                data = data.filter(function (elem) { return !usedIds.includes(elem.id); });
+                console.log(data);
+                resolve(data);
+            }).catch(function (e) { return console.log(e); });
+        });
     }
 };
 var globalTrendId = 0;

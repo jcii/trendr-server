@@ -28,4 +28,11 @@ router.post('/tweetCount', function (req, res, next) {
 router.post('/clearTweets', function (req, res, next) {
     streamModel.clearTweets(req.body.trend_id).then(function () { return res.json('Tweets cleared'); });
 });
+router.post('/tweetsForDisplay', function (req, res, next) {
+    streamModel.getActivekeyword(req.body.trend_id).then(function (keyword) {
+        streamModel.sumStreamingWords(req.body.trend_id, keyword).then(function (data) {
+            streamModel.tweetsForDisplay(req.body.trend_id, keyword, data.axisLabels, req.body.usedTweetIds).then(function (data) { return res.json(data); });
+        });
+    });
+});
 module.exports = router;

@@ -62,6 +62,27 @@ let exportObj = {
     return new Promise((resolve, reject) => {
       return streamModelDb.knex.raw(`delete from keyword_tweets where trend_id = ${trend_id}`).then(() => resolve())
     })
+  }, 
+
+  tweetsForDisplay: (trend_id, keyword, topWords, usedIds)  => {
+    console.log(trend_id)
+    console.log(keyword)
+    console.log(topWords)
+    console.log(usedIds)
+    return new Promise((resolve, reject) => {
+      return streamModelDb.knex('keyword_tweets').where('trend_id', trend_id)
+        .andWhere('text', 'like', `%${keyword}%`)
+        .andWhere('text', 'like', `%${topWords[0]}%`)
+        .orWhere('text', 'like', `%${topWords[1]}%`)
+        .orWhere('text', 'like', `%${topWords[2]}%`)
+        .orWhere('text', 'like', `%${topWords[3]}%`)
+        .orWhere('text', 'like', `%${topWords[4]}%`)
+        .then(data => {
+          data = data.filter(elem => !usedIds.includes(elem.id))
+          console.log(data)
+          resolve(data)
+        }).catch(e => console.log(e))
+    })
   }
 
 }
