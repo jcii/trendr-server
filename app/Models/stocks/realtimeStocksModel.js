@@ -12,8 +12,15 @@ module.exports = (function () {
         });
     };
     realtimeStocks.prototype.updateDatabase = function (obj) {
+        console.log("************");
+        console.log(obj);
         var dbDate = Number(new Date(obj.Timestamp).getTime());
-        return db.knex.raw("insert into realtime_stocks values (default, '" + obj.Name + "', '" + obj.Symbol + "', " + obj.LastPrice + ", " + obj.Volume + ", " + dbDate + ")");
+        return db.knex.raw("insert into realtime_stocks values (default, '" + obj.Name + "', '" + obj.Symbol + "', " + obj.LastPrice + ", " + obj.Volume + ", " + dbDate + ")").then(function () {
+            return db.knex.raw("select stock_prices_collected from stock_prices_collected where user_id = " + obj.trend_id).then(function (stockCount) {
+                var stockTotal = Number(stockCount.rows[0].stock_prices_collected) + 1;
+                return db.knex.raw("update stock_prices_collected set stock_prices_collected = " + stockTotal);
+            });
+        });
     };
     realtimeStocks.prototype.getDatabaseResults = function (symbol) {
         return db.knex.raw("select * from realtime_stocks where symbol = '" + symbol + "' order by timestamp desc limit 10").then(function (results) {

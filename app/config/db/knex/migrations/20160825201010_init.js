@@ -24,6 +24,13 @@ return Promise.all([
     table.bigint('created_at')
     table.bigint('updated_at')
   }),
+    knex.schema.createTable('stock_prices_collected', (table) => {
+    table.increments('id').primary()
+    table.integer('user_id').references("users.id")
+    table.integer("stock_prices_collected")
+    table.bigint('created_at')
+    table.bigint('updated_at')
+  }),
   knex.schema.createTable('twitter_keywords', (table) => {
     table.increments('id').primary()
     table.integer('trend_id').references("trends.id")

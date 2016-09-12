@@ -14,8 +14,15 @@ module.exports = class realtimeStocks {
     }
 
     updateDatabase(obj: any) {
+        console.log("************")
+        console.log(obj)
         let dbDate: number = Number(new Date(obj.Timestamp).getTime())
-        return db.knex.raw(`insert into realtime_stocks values (default, '${obj.Name}', '${obj.Symbol}', ${obj.LastPrice}, ${obj.Volume}, ${dbDate})`)
+        return db.knex.raw(`insert into realtime_stocks values (default, '${obj.Name}', '${obj.Symbol}', ${obj.LastPrice}, ${obj.Volume}, ${dbDate})`).then(() => {
+            return db.knex.raw(`select stock_prices_collected from stock_prices_collected where user_id = ${obj.trend_id}`).then(stockCount => {
+                let stockTotal = Number(stockCount.rows[0].stock_prices_collected) + 1
+                return db.knex.raw(`update stock_prices_collected set stock_prices_collected = ${stockTotal}`)
+            })
+        })
     }
 
     getDatabaseResults(symbol) {
@@ -27,3 +34,5 @@ module.exports = class realtimeStocks {
         })
     }
 }
+
+

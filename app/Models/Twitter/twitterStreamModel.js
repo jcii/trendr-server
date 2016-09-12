@@ -62,7 +62,6 @@ var exportObj = {
                 .orWhere('text', 'like', "%" + topWords[4] + "%")
                 .then(function (data) {
                 data = data.filter(function (elem) { return !usedIds.includes(elem.id); });
-                console.log(data);
                 resolve(data);
             }).catch(function (e) { return console.log(e); });
         });

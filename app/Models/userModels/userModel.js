@@ -17,7 +17,9 @@ module.exports = (function () {
         }).then(function () {
             db.knex.raw("select id from users where id = (select max(id) from users)").then(function (id) {
                 db.knex.raw("insert into tweets_collected values (default, " + id.rows[0].id + ", 0)").then(function () {
-                    console.log('instantiated tweets collected');
+                    db.knex.raw("insert into stock_prices_collected values (default, " + id.rows[0].id + ", 0)").then(function () {
+                        console.log('instantiated tweets and stocks collected');
+                    });
                 });
             });
         });

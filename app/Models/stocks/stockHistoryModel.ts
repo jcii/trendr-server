@@ -29,7 +29,7 @@ module.exports = class StockHistoryClass {
                         let databaseArray: any[] = []
                         for (let i = 0; i < datesArray.length; i++) {
                             databaseArray.push(
-                                stockHistorydb.knex.raw(`insert into stock_history values (default, 1, 'netflix', '${data.Elements[0].Symbol}', ${pricesArray[i]}, '${obj.DataPeriod}', ${datesArray[i].unix}, '${datesArray[i].fullDate}', '${datesArray[i].year}', '${datesArray[i].monthNumber}', '${datesArray[i].month}', '${datesArray[i].dayNumber}', '${datesArray[i].day}')`).then(data => data)
+                                stockHistorydb.knex.raw(`insert into stock_history values (default, 1, 'company name', '${data.Elements[0].Symbol}', ${pricesArray[i]}, '${obj.DataPeriod}', ${datesArray[i].unix}, '${datesArray[i].fullDate}', '${datesArray[i].year}', '${datesArray[i].monthNumber}', '${datesArray[i].month}', '${datesArray[i].dayNumber}', '${datesArray[i].day}')`).then(data => data)
                             )
                         }
                         Promise.all(databaseArray).then((promiseData) => {
