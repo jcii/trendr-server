@@ -16,7 +16,14 @@ router.post('/', function (req, res, next) {
 router.route('/userTrends')
     .post(function (req, res) {
     trendModel.getTrendsForUser(req.body.user_id)
-        .then(function (trend) { return res.json(trend); })
+        .then(function (trend) {
+        trendModel.getStockHistories(trend.attributes.id).then(function (stockHistories) {
+            res.json({
+                trend: trend,
+                stockHistories: stockHistories
+            });
+        });
+    })
         .catch(function (e) { return console.log(e); });
 });
 module.exports = router;

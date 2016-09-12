@@ -58,5 +58,21 @@ module.exports = (function () {
             }).catch(function (error) { return console.log(error); });
         });
     };
+    TrendClass.prototype.getStockHistories = function (user_id) {
+        return new Promise(function (resolve, reject) {
+            return trendDb.knex('trends').where('user_id', user_id).pluck('id').then(function (trend_ids) {
+                console.log(trend_ids);
+                return trendDb.knex('trend_tickers').whereIn('trend_id', trend_ids).select('trend_id', 'ticker').then(function (tickers) {
+                    console.log(tickers);
+                    var tickerArr = trendService.createTickerArr(tickers);
+                    // console.log(tickerArr)
+                    Promise.all(tickerArr).then(function (trendStocks) {
+                        console.log(trendStocks);
+                        resolve(trendStocks);
+                    });
+                });
+            });
+        });
+    };
     return TrendClass;
 }());

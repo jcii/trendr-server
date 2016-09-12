@@ -62,4 +62,22 @@ module.exports = class TrendClass {
             }).catch(error => console.log(error))
         })
     }
+
+
+    getStockHistories(user_id) {
+        return new Promise((resolve, reject) => {
+            return trendDb.knex('trends').where('user_id', user_id).pluck('id').then(trend_ids => {
+                console.log(trend_ids)
+                return trendDb.knex('trend_tickers').whereIn('trend_id', trend_ids).select('trend_id', 'ticker').then(tickers => {
+                    console.log(tickers)
+                    let tickerArr: any[] = trendService.createTickerArr(tickers)
+                    // console.log(tickerArr)
+                    Promise.all(tickerArr).then(trendStocks => {
+                        console.log(trendStocks)
+                        resolve(trendStocks)
+                    })
+                })
+            })
+        })
+    }
 }
