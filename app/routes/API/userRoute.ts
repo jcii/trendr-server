@@ -8,8 +8,8 @@ const user = new UserProfileClass
 
 
 
-router.get('/', function(req: Request, res: Response, next: Function) {
-    user.sayHello().then(data => res.send(data))
+router.post('/', function(req: Request, res: Response, next: Function) {
+    user.getStats(req.body.username).then(data => res.json(data))
 });
 
 module.exports = router;

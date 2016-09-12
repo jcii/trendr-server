@@ -4,7 +4,7 @@ var router = express.Router();
 var request = require('request');
 var UserProfileClass = require('../../Models/userModels/userProfileModel');
 var user = new UserProfileClass;
-router.get('/', function (req, res, next) {
-    user.sayHello().then(function (data) { return res.send(data); });
+router.post('/', function (req, res, next) {
+    user.getStats(req.body.username).then(function (data) { return res.json(data); });
 });
 module.exports = router;
