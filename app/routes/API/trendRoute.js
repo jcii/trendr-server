@@ -7,6 +7,9 @@ var trendModel = new TrendModelClass;
 router.get('/', function (req, res, next) {
     trendModel.sayHello().then(function (data) { return res.send(data); });
 });
+router.get('/:id', function (req, res, next) {
+    trendModel.getTrendById(req.params.id).then(function (trend) { return res.json(trend); });
+});
 router.post('/', function (req, res, next) {
     trendModel.createTrend(req.body).then(function (data) { return res.json('success!'); });
 });

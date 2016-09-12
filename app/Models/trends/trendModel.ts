@@ -44,6 +44,9 @@ module.exports = class TrendClass {
     getTrendsForUser(id){
         return User.forge({id}).fetch({withRelated:['trends.symbols', 'trends.keywords']})
     }
+    getTrendById(id){
+        return trendDb.knex('trends').where({id}).first()
+    }
     createTrend(obj) {
         return new Promise((resolve, reject) => {
             return trendDb.knex.raw(`insert into trends values (default, 1, '${obj.trend_title}', false, '${ obj.trend_description }')`).then((data) => {
