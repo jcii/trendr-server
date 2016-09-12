@@ -21,5 +21,7 @@ module.exports = (function () {
             return userDb.knex('trend_tickers').where({ user_id: Number(user_id), trend_id: Number(trend_id) }).pluck('ticker').then(function (ticker) { return resolve(ticker[0]); });
         });
     };
+    TrendClass.prototype.getActiveKeyword = function (trend_id) {
+    };
     return TrendClass;
 }());

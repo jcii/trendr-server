@@ -25,4 +25,8 @@ module.exports = class TrendClass {
         })
     }
 
+    getActiveKeyword(trend_id) {
+        
+    }
+
 }
