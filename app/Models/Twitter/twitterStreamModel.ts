@@ -75,7 +75,6 @@ let exportObj = {
         .orWhere('text', 'like', `%${topWords[4]}%`)
         .then(data => {
           data = data.filter(elem => !usedIds.includes(elem.id))
-          console.log(data)
           resolve(data)
         }).catch(e => console.log(e))
     })

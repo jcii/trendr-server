@@ -10,8 +10,8 @@ module.exports = {
             streamDb.knex.raw("insert into keyword_tweets values (default, " + trend_id + ", '" + text + "', '" + hashtags + "', " + unix + ", '" + fullDate + "')").then(function () {
                 return streamDb.knex.raw("select user_id from trends where id = " + trend_id).then(function (user_id) {
                     return streamDb.knex.raw("select tweets_collected from tweets_collected where user_id = " + user_id.rows[0].user_id).then(function (count) {
-                        var total = Number(count.rows[0].tweets_collected) + 1;
-                        return streamDb.knex.raw("update tweets_collected set tweets_collected = " + total).then(function () {
+                        var tweetTotal = Number(count.rows[0].tweets_collected) + 1;
+                        return streamDb.knex.raw("update tweets_collected set tweets_collected = " + tweetTotal).then(function () {
                             console.log('updated tweets_collected');
                             resolve();
                         });

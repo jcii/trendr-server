@@ -27,7 +27,7 @@ module.exports = (function () {
                         var pricesArray = data.Elements[0].DataSeries.close.values;
                         var databaseArray = [];
                         for (var i = 0; i < datesArray.length; i++) {
-                            databaseArray.push(stockHistorydb.knex.raw("insert into stock_history values (default, 1, 'netflix', '" + data.Elements[0].Symbol + "', " + pricesArray[i] + ", '" + obj.DataPeriod + "', " + datesArray[i].unix + ", '" + datesArray[i].fullDate + "', '" + datesArray[i].year + "', '" + datesArray[i].monthNumber + "', '" + datesArray[i].month + "', '" + datesArray[i].dayNumber + "', '" + datesArray[i].day + "')").then(function (data) { return data; }));
+                            databaseArray.push(stockHistorydb.knex.raw("insert into stock_history values (default, 1, 'company name', '" + data.Elements[0].Symbol + "', " + pricesArray[i] + ", '" + obj.DataPeriod + "', " + datesArray[i].unix + ", '" + datesArray[i].fullDate + "', '" + datesArray[i].year + "', '" + datesArray[i].monthNumber + "', '" + datesArray[i].month + "', '" + datesArray[i].dayNumber + "', '" + datesArray[i].day + "')").then(function (data) { return data; }));
                         }
                         Promise.all(databaseArray).then(function (promiseData) {
                             return stockHistorydb.knex.raw("select * from stock_history order by unix_timestamp").then(function (finalData) { return resolve(finalData.rows); });
