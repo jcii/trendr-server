@@ -40,6 +40,9 @@ module.exports = (function () {
     TrendClass.prototype.getTrendsForUser = function (id) {
         return User.forge({ id: id }).fetch({ withRelated: ['trends.symbols', 'trends.keywords'] });
     };
+    TrendClass.prototype.getTrendById = function (id) {
+        return trendDb.knex('trends').where({ id: id }).first();
+    };
     TrendClass.prototype.createTrend = function (obj) {
         return new Promise(function (resolve, reject) {
             return trendDb.knex.raw("insert into trends values (default, 1, '" + obj.trend_title + "', false, '" + obj.trend_description + "')").then(function (data) {

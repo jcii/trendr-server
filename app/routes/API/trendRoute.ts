@@ -11,6 +11,9 @@ const trendModel = new TrendModelClass
 router.get('/', function(req: Request, res: Response, next: Function) {
     trendModel.sayHello().then(data => res.send(data))
 });
+router.get('/:id', function(req: Request, res: Response, next: Function) {
+    trendModel.getTrendById(req.params.id).then(trend => res.json(trend))
+});
 
 router.post('/', function(req: Request, res: Response, next: Function) {
     trendModel.createTrend(req.body).then(data => res.json('success!'))
