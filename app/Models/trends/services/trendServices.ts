@@ -11,10 +11,7 @@ module.exports = {
 
     createKeywordArr: function (arr, id) {
         let keywordArr = []
-        arr.forEach(elem => {
-            console.log("now logging elem");
-            console.log(elem);
-            
+        arr.forEach(elem => {            
             keywordArr.push(trendServicesDb.knex.raw(`insert into twitter_keywords values (default, ${id}, '${ elem.keyword }', ${ elem.is_active })`))
         })
         return keywordArr
