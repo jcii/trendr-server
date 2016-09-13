@@ -20,17 +20,19 @@ module.exports = {
         arr.forEach(function (elem) {
             tickerArr.push(new Promise(function (resolve, reject) {
                 var url = "http://dev.markitondemand.com/MODApis/Api/v2/InteractiveChart/json?parameters={\"Normalized\":false,\"NumberOfDays\":10,\"DataPeriod\":\"DAY\",\"Elements\":[{\"Symbol\":\"" + elem.ticker + "\",\"Type\":\"price\",\"Params\":[\"c\"]}]}";
-                trendServiceRequest(url, function (error, response, body) {
-                    if (!error && response.statusCode == 200) {
-                        resolve({
-                            body: body,
-                            trend_id: elem.trend_id
-                        });
-                    }
-                    else {
-                        reject(error);
-                    }
-                });
+                setTimeout(function () {
+                    trendServiceRequest(url, function (error, response, body) {
+                        if (!error && response.statusCode == 200) {
+                            resolve({
+                                body: body,
+                                trend_id: elem.trend_id
+                            });
+                        }
+                        else {
+                            reject(error);
+                        }
+                    });
+                }, 500);
             }));
         });
         return tickerArr;
