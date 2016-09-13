@@ -25,7 +25,7 @@ module.exports = {
             tickerArr.push(
                 new Promise((resolve, reject) => {
                     let url = `http://dev.markitondemand.com/MODApis/Api/v2/InteractiveChart/json?parameters={"Normalized":false,"NumberOfDays":10,"DataPeriod":"DAY","Elements":[{"Symbol":"${elem.ticker}","Type":"price","Params":["c"]}]}`
-                    trendServiceRequest(url, (error: any, response: any, body: any) => {
+                    setTimeout(() => {trendServiceRequest(url, (error: any, response: any, body: any) => {
                         if (!error && response.statusCode == 200) {
                             resolve({
                                 body, 
@@ -34,7 +34,8 @@ module.exports = {
                         } else {
                             reject(error)
                         }
-                    })
+                    })}, 500)
+                    
                 })
             )
         })
